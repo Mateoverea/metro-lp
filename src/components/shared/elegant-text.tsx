@@ -1,9 +1,11 @@
 "use client"
+
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface ElegantTextProps {
-  children: React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: any;
   className?: string;
   variant?: 'fade-up' | 'slide-in' | 'typewriter' | 'glow';
   delay?: number;
@@ -28,30 +30,15 @@ export default function ElegantText({
   const variants = {
     'fade-up': {
       initial: { opacity: 0, y: 30 },
-      animate: { opacity: 1, y: 0 },
-      transition: { 
-        duration: 0.8, 
-        ease: [0.25, 0.46, 0.45, 0.94],
-        delay 
-      }
+      animate: { opacity: 1, y: 0 }
     },
     'slide-in': {
       initial: { opacity: 0, x: -50 },
-      animate: { opacity: 1, x: 0 },
-      transition: { 
-        duration: 0.6, 
-        ease: "easeOut",
-        delay 
-      }
+      animate: { opacity: 1, x: 0 }
     },
     'typewriter': {
       initial: { width: 0 },
-      animate: { width: "auto" },
-      transition: { 
-        duration: 1.5, 
-        ease: "easeInOut",
-        delay 
-      }
+      animate: { width: "auto" }
     },
     'glow': {
       initial: { opacity: 0.7 },
@@ -62,12 +49,6 @@ export default function ElegantText({
           "0 0 20px rgba(0, 51, 102, 0.8)",
           "0 0 0px rgba(0, 51, 102, 0.5)"
         ]
-      },
-      transition: { 
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay 
       }
     }
   };
@@ -78,7 +59,10 @@ export default function ElegantText({
     <motion.div
       initial={currentVariant.initial}
       animate={currentVariant.animate}
-      transition={currentVariant.transition}
+      transition={{ 
+        duration: 0.8,
+        delay 
+      }}
       className={cn(
         "inline-block",
         variant === 'typewriter' && "overflow-hidden whitespace-nowrap",

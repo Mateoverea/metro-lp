@@ -1,4 +1,6 @@
 "use client"
+
+import React from 'react';
 import { z } from 'zod';
 import { FormType } from '@/types';
 import toast from 'react-hot-toast';
@@ -50,7 +52,7 @@ export default function Form({ form }: { form: FormType; }) {
       toast.success('Message Sent');
       
     } catch (error) {
-      toast.error(error);
+      toast.error(error instanceof Error ? error.message : 'Something went wrong');
     }
   };
 
@@ -76,7 +78,8 @@ export default function Form({ form }: { form: FormType; }) {
         type="submit"
         className="group w-full flex items-center justify-between gap-2 px-6 py-3 rounded-full text-white bg-blue-700 hover:bg-blue-600 transition-all duration-300"
       >
-        <span className='font-medium text-sm'>{submitButtonText}</span> <ArrowRight size={16} className='group-hover:translate-x-1 transition-transform duration-300' />
+        <span className='font-medium text-sm'>{submitButtonText}</span> 
+        <ArrowRight size={16} className='group-hover:translate-x-1 transition-transform duration-300' />
       </button>
     </form>
   )
