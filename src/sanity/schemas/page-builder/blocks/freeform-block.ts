@@ -7,7 +7,7 @@ import { AlignmentInput, alignmentOptions } from "@/sanity/components/alignment-
 
 export default defineType({
   name: 'freeformBlock',
-  title: 'Carreras',
+  title: 'Freeform',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
@@ -157,7 +157,7 @@ export default defineType({
       const { title } = selection
       return {
         title: title ?? 'Sin título establecido. Agrega uno dentro de este bloque',
-        subtitle: 'Carreras',
+        subtitle: 'Freeform',
         media: Shapes,
       }
     },
