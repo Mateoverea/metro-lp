@@ -267,14 +267,16 @@ export const formBlockQuery = `
 export const mediaBlockQuery = `
   _type == "mediaBlock" => {
     ${baseQuery},
-    backgroundType,
+    title,
+    layoutStyle,
     backgroundWidth,
-    image { 
-      ${mediaQuery}
+    images[] {
+      image { 
+        ${mediaQuery}
+      },
+      caption,
+      size
     },
-    overlayType,
-    dialogType,
-    videoUrl,
     anchorId
   }
 `

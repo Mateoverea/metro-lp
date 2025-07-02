@@ -156,14 +156,14 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                       </div>
                       
                       {/* Badge de categoría en esquina - consistente */}
-                      <div className="absolute top-2 left-2">
+                      <div className="absolute top-0.5 left-1">
                         <span className={cn(
                           'px-2 py-1 text-xs font-bold rounded-full',
                           stegaClean(column?.category) === 'maestria'
-                            ? 'bg-university-gold text-university-navy'
+                            ? 'bg-university-silver text-university-navy'
                             : 'bg-white text-university-navy'
                         )}>
-                          {stegaClean(column?.category) === 'maestria' ? 'M' : 'L'}
+                          {stegaClean(column?.category) === 'maestria' ? 'Mtro.' : 'Lic.'}
                         </span>
                       </div>
                     </div>
@@ -205,13 +205,13 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                           
                           {/* Imagen */}
                           {(item?._type === 'singleImageObject' && item?.image?.asset?.url) && (
-                            <div className='p-3 border border-dashed rounded-2xl bg-gray-50'>
+                            <div className='group p-3 border border-dashed rounded-2xl bg-gray-50 cursor-pointer overflow-hidden'>
                               <Image
                                 src={item?.image?.asset?.url ?? ''}
                                 width={400}
                                 height={300}
                                 alt={item?.image?.asset?.altText ?? ''}
-                                className={cn('object-cover w-full rounded-xl', {
+                                className={cn('object-cover w-full rounded-xl transition-transform duration-300 group-hover:scale-105', {
                                   'aspect-square': !item?.image?.aspectRatio || stegaClean(item?.image?.aspectRatio) === 'square',
                                   'aspect-[3/2]': stegaClean(item?.image?.aspectRatio) === 'rectangle',
                                   'aspect-[3/4]': stegaClean(item?.image?.aspectRatio) === 'portrait',

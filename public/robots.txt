@@ -1,0 +1,45 @@
+# Robots.txt para Site Engine
+# Next.js + Sanity CMS Website
+
+# Permitir a todos los bots acceder al contenido público
+User-agent: *
+Allow: /
+
+# Bloquear rutas administrativas y de API
+Disallow: /api/
+Disallow: /studio
+Disallow: /studio/
+
+# Bloquear archivos internos de Next.js
+Disallow: /_next/
+Disallow: /_vercel/
+
+# Bloquear archivos de fuentes (ya están en /fonts/ dentro de la app)
+Disallow: /fonts/
+
+# Bloquear preview/draft mode
+Disallow: /*?preview=*
+Disallow: /*&preview=*
+
+# Sitemap - se genera dinámicamente desde Sanity
+# IMPORTANTE: Reemplaza con tu dominio real en producción
+Sitemap: /sitemap.xml
+
+# Configuración específica para bots comunes
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Bloquear bots problemáticos (opcional)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: / 

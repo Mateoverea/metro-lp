@@ -517,6 +517,177 @@ npx tsc --noEmit
 npm run lint
 ```
 
+## TROUBLESHOOTING COMMON ISSUES
+
+### Issue: Server Errors After Schema Changes
+**Symptoms:** Internal server errors, ENOENT file errors in `.next` directory, 500 errors
+
+**Root Cause:** Corrupted Next.js build cache combined with Sanity type generation cache issues
+
+**Solution (Windows PowerShell):**
+```bash
+# 1. Stop all Node processes
+taskkill /F /IM node.exe
+
+# 2. Clear Next.js build cache
+Remove-Item -Recurse -Force .next
+
+# 3. Restart development server
+npm run dev
+```
+
+**Solution (Mac/Linux):**
+```bash
+# 1. Stop dev server (Ctrl+C)
+# 2. Clear Next.js build cache
+rm -rf .next
+
+# 3. Restart development server
+npm run dev
+```
+
+### Issue: Sanity Types Not Updating
+**Symptoms:** TypeScript errors, old type definitions persist after schema changes
+
+**Root Cause:** Sanity TypeGen cache not detecting schema changes properly
+
+**Solution:**
+```bash
+# 1. Stop dev server
+# 2. Regenerate types
+npx sanity typegen generate
+
+# 3. If still not working, clear all caches
+Remove-Item -Recurse -Force .next
+Remove-Item -Recurse -Force node_modules/.cache
+
+# 4. Restart server
+npm run dev
+```
+
+### Issue: Import Path Errors for sanity.types.ts
+**Symptoms:** "Cannot find module" errors when importing from sanity.types
+
+**Root Cause:** Inconsistent import paths across the project
+
+**Solution:** Use relative imports based on file location:
+```typescript
+// From src/components/page-builder/blocks/
+import { MediaBlock } from '../../../../sanity.types';
+
+// From src/components/global/
+import { GeneralSettingsQueryResult } from '../../../sanity.types';
+
+// From src/app/(frontend)/
+import { PageBySlugQueryResult } from '../../../sanity.types';
+```
+
+### Issue: TypeScript Errors After Schema Updates
+**Symptoms:** Build fails, component props don't match generated types
+
+**Temporary Workaround (when types don't generate correctly):**
+```typescript
+// Create temporary interface matching your schema
+interface TempMediaBlockProps {
+  _type: "mediaBlock";
+  title?: string;
+  images?: Array<{
+    image?: {
+      asset?: {
+        _ref?: string;
+        url?: string;
+      };
+      altText?: string;
+    };
+    caption?: string;
+    size?: 'small' | 'medium' | 'large';
+    _key?: string;
+  }>;
+  layoutStyle?: 'bento' | 'carousel' | 'mixed';
+  backgroundWidth?: 'full' | 'contained';
+  anchorId?: string;
+}
+
+// Use until types generate properly
+export type MediaBlockProps = TempMediaBlockProps;
+```
+
+### Issue: Schema Changes Not Appearing in Studio
+**Symptoms:** New fields don't show up in Sanity Studio
+
+**Solution:**
+```bash
+# 1. Restart dev server (Studio runs on same server)
+# 2. Hard refresh browser (Ctrl+F5 or Cmd+Shift+R)
+# 3. Clear browser cache for localhost:3000
+```
+
+## BEST PRACTICES FOR SCHEMA CHANGES
+
+### Before Making Schema Changes:
+1. **Stop the dev server** - Prevents cache conflicts
+2. **Plan the complete schema** - Avoid multiple iterations
+3. **Check existing patterns** - Follow project conventions
+
+### After Schema Changes:
+1. **Always regenerate types**: `npx sanity typegen generate`
+2. **Restart dev server** - Ensures clean build
+3. **Test in Studio first** - Verify fields appear correctly
+4. **Test frontend component** - Ensure data flows properly
+5. **Clear caches if issues persist**
+
+### Schema Change Checklist:
+- [ ] Schema file created/updated
+- [ ] Schema registered in `src/sanity/schemas/index.ts`
+- [ ] Query created/updated in `src/sanity/lib/queries/`
+- [ ] Types regenerated: `npx sanity typegen generate`
+- [ ] Component updated to use new types
+- [ ] Dev server restarted
+- [ ] Tested in Studio
+- [ ] Tested in frontend
+
+## CACHE CLEARING PRIORITY
+
+When encountering errors, clear caches in this order:
+
+1. **Next.js cache** (most common issue):
+   ```bash
+   Remove-Item -Recurse -Force .next
+   ```
+
+2. **Node modules cache**:
+   ```bash
+   Remove-Item -Recurse -Force node_modules/.cache
+   ```
+
+3. **Full node_modules** (last resort):
+   ```bash
+   Remove-Item -Recurse -Force node_modules
+   npm install
+   ```
+
+## ERROR PATTERNS TO RECOGNIZE
+
+### ENOENT Errors in .next Directory
+```
+Error: ENOENT: no such file or directory, open '.next/server/pages/_app/build-manifest.json'
+```
+**Fix:** Clear `.next` directory and restart
+
+### Type Import Errors
+```
+Cannot find module '../../../sanity.types' or its corresponding type declarations
+```
+**Fix:** Check import path, regenerate types, or use temporary interface
+
+### 500 Internal Server Error
+**Common causes:**
+- Corrupted build cache → Clear `.next`
+- Type mismatches → Regenerate types
+- Schema/query conflicts → Restart server
+
+Remember: **When in doubt, clear caches and restart!** 🔄
+
 ## ERROR HANDLING PATTERNS
 
 - Always provide fallback values: `field || 'default'`

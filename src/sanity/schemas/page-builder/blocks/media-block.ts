@@ -5,23 +5,95 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'mediaBlock',
-  title: 'Media',
+  title: 'Media Gallery',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
+    // Main title for the media gallery
     defineField({
-      title: "Background Type",
-      name: "backgroundType",
-      type: "string",
+      name: 'title',
+      title: 'Gallery Title',
+      type: 'string',
+      description: 'Optional title for the media gallery'
+    }),
+    
+    // Array of images for the bento grid
+    defineField({
+      name: 'images',
+      title: 'Gallery Images',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'image',
+            title: 'Image',
+            type: 'image',
+            options: { hotspot: true },
+            fields: [
+              defineField({
+                name: 'altText',
+                title: 'Alternative Text',
+                type: 'string'
+              }),
+            ]
+          }),
+          defineField({
+            name: 'caption',
+            title: 'Caption',
+            type: 'string',
+            description: 'Optional caption for this image'
+          }),
+          defineField({
+            name: 'size',
+            title: 'Grid Size',
+            type: 'string',
+            options: {
+              list: [
+                { title: 'Small (1x1)', value: 'small' },
+                { title: 'Medium (2x1)', value: 'medium' },
+                { title: 'Large (2x2)', value: 'large' },
+              ],
+            },
+            initialValue: 'small'
+          })
+        ],
+        preview: {
+          select: {
+            title: 'caption',
+            media: 'image',
+            subtitle: 'size'
+          },
+          prepare(selection) {
+            const { title, media, subtitle } = selection
+            return {
+              title: title || 'No caption',
+              media: media,
+              subtitle: `Size: ${subtitle}`
+            }
+          }
+        }
+      }],
+      validation: Rule => Rule.min(3).max(12).error('Please add between 3 and 12 images')
+    }),
+
+    // Layout options
+    defineField({
+      name: 'layoutStyle',
+      title: 'Layout Style',
+      type: 'string',
       options: {
         list: [
-          { title: "Image", value: "image" },
-          { title: "Video", value: "video" },
+          { title: 'Bento Grid', value: 'bento' },
+          { title: 'Carousel Only', value: 'carousel' },
+          { title: 'Mixed (Grid + Carousel)', value: 'mixed' },
         ],
       },
-      initialValue: 'image',
+      initialValue: 'bento'
     }),
+
+    // Background settings
     defineField({
       title: "Background Width",
       name: "backgroundWidth",
@@ -34,49 +106,8 @@ export default defineType({
       },
       initialValue: 'full',
     }),
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      fields: [
-        defineField({
-          name: 'altText',
-          title: 'Alternative Text',
-          type: 'string'
-        }),
-      ],
-      hidden: ({ parent }) => parent?.backgroundType !== 'image',
-    }),
-    defineField({
-      title: "Overlay Type",
-      name: "overlayType",
-      type: "string",
-      options: {
-        list: [
-          { title: "None", value: "none" },
-          { title: "Dark", value: "dark" },
-        ],
-      },
-      initialValue: 'none',
-    }),
-    defineField({
-      title: "Dialog Type",
-      name: "dialogType",
-      type: "string",
-      options: {
-        list: [
-          { title: "None", value: "none" },
-          { title: "Video", value: "video" },
-        ],
-      },
-      initialValue: 'none',
-    }),
-    defineField({
-      name: 'videoUrl',
-      title: 'Video URL',
-      type: 'string',
-      hidden: ({ parent }) => parent?.dialogType !== 'video',
-    }),
+
+    // Anchor ID
     defineField({
       name: 'anchorId',
       title: 'Anchor ID',
@@ -85,15 +116,17 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'image.altText',
-      media: '',
+      title: 'title',
+      media: 'images.0.image',
+      count: 'images'
     },
     prepare(selection) {
-      const { title } = selection
+      const { title, media, count } = selection
+      const imageCount = count ? count.length : 0
       return {
-        title: title ?? 'No title set. Add one inside this block',
-        subtitle: 'Media',
-        media: Image,
+        title: title || 'Media Gallery',
+        subtitle: `${imageCount} images`,
+        media: media || Image,
       }
     },
   },
