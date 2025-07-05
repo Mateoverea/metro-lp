@@ -138,7 +138,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                 <CarouselItem key={column?._key} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                   <div 
                     className={cn(
-                      'flex flex-col h-full min-h-[500px] bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden',
+                      'group flex flex-col h-full min-h-[500px] bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden',
                       {
                         'items-center text-center': stegaClean(column?.alignment) === 'center',
                         'items-end text-right': stegaClean(column?.alignment) === 'right',
@@ -205,7 +205,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                           
                           {/* Imagen */}
                           {(item?._type === 'singleImageObject' && item?.image?.asset?.url) && (
-                            <div className='group p-3 border border-dashed rounded-2xl bg-gray-50 cursor-pointer overflow-hidden'>
+                            <div className='p-3 border border-dashed rounded-2xl bg-gray-50 overflow-hidden'>
                               <Image
                                 src={item?.image?.asset?.url ?? ''}
                                 width={400}

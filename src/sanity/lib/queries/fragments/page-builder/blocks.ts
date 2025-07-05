@@ -111,7 +111,30 @@ export const callToActionBlockQuery = `
     ${baseQuery},
     heading,
     content,
-    buttons[] {
+    featuredImage {
+      ${mediaQuery}
+      alt
+    },
+    locationText,
+    socialMediaPlatforms[] {
+      _key,
+      platform,
+      profileUrl,
+      icon {
+        ${mediaQuery}
+      }
+    },
+    whatsappContact {
+      phoneNumber,
+      message,
+      buttonText
+    },
+    googleMaps {
+      embedUrl,
+      address,
+      showMap
+    },
+    button {
       ${buttonQuery}
     },
     anchorId,

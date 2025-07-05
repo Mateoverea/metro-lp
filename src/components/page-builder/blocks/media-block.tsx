@@ -74,7 +74,7 @@ export default function MediaBlock(props: MediaBlockProps) {
       })}
     >
       <Container 
-        className={cn('py-16 md:py-28 space-y-12', {
+        className={cn('py-16 md:py-16 space-y-12', {
           'border-x border-dashed': stegaClean(backgroundWidth) === 'contained'
         })}
       >

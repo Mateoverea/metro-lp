@@ -41,7 +41,7 @@ export default function TestimonialBlock(props: TestimonialBlockProps) {
         'rounded-b-4xl': stegaClean(cornerRadiusBottom) === 'rounded'
       })}
     >
-      <Container className='py-16 md:py-28 space-y-12 md:space-y-16 border-x border-dashed border-university-academic-300/40'>
+      <Container className='py-16 space-y-12 md:space-y-16 border-x border-dashed border-university-academic-300/40'>
         
         {/* Header Section */}
         <div className="text-center space-y-6">
