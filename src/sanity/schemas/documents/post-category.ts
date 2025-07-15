@@ -6,7 +6,7 @@ import { orderRankField, orderRankOrdering } from "@sanity/orderable-document-li
 
 export default defineType({
   name: 'postCategory',
-  title: 'Post Categories',
+  title: 'Categorías del Blog',
   type: 'document',
   icon: FiFile,
   fieldsets: [ ...fieldsets ],
@@ -15,7 +15,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Nombre de la Categoría',
       type: 'string',
       validation: rule => rule.required()
     }),
@@ -30,9 +30,9 @@ export default defineType({
     }),
     defineField({
       name: 'categoryColor',
-      title: 'Category color',
+      title: 'Color de la Categoría',
       type: 'simplerColor',
-      description: 'Defaults to white.'
+      description: 'Por defecto es blanco.'
     }),
     orderRankField({ 
       type: 'postCategory' 

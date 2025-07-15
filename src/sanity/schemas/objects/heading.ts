@@ -3,18 +3,18 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: 'headingObject',
-  title: 'Heading',
+  title: 'Encabezado',
   type: 'object',
   fields: [
     defineField({
       name: 'headingText',
       type: 'string',
-      title: 'Heading',
+      title: 'Texto del Encabezado',
     }),
     defineField({
       name: "headingTag",
       type: "string",
-      title: "Tag",
+      title: "Etiqueta HTML",
       options: {
         list: [
           { title: "H2", value: "h2" },
@@ -29,7 +29,7 @@ export default defineType({
     defineField({
       name: "headingSize",
       type: "string",
-      title: "Size",
+      title: "Tamaño",
       options: {
         list: [
           { title: "XXXL", value: "xxxl" },
@@ -51,8 +51,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'No title set. Add one inside this block',
-        subtitle: 'Heading',
+        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
+        subtitle: 'Encabezado',
         media: Heading1,
       }
     },

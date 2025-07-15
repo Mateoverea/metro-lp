@@ -5,7 +5,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'form',
-  title: 'Form',
+  title: 'Formularios',
   type: 'document',
   icon: File,
   fieldsets: [ ...fieldsets ],
@@ -13,19 +13,19 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Form Title',
+      title: 'Título del Formulario',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'submitButtonText',
-      title: 'Submit Button Text',
+      title: 'Texto del Botón de Envío',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'fields',
-      title: 'Form Fields',
+      title: 'Campos del Formulario',
       type: 'array',
       of: [
         {
@@ -33,31 +33,31 @@ export default defineType({
           fields: [
             defineField({
               name: 'name',
-              title: 'Name/Label',
+              title: 'Nombre/Etiqueta',
               type: 'string',
             }),
             defineField({
               name: 'placeholder',
-              title: 'Placeholder',
+              title: 'Texto de Ayuda',
               type: 'string',
             }),
             defineField({
               name: "inputType",
-              title: "Input Type",
+              title: "Tipo de Campo",
               type: "string",
               options: {
                 list: [
-                  { title: "Text", value: "text" },
-                  { title: "Text Area", value: "textarea" },
-                  { title: "Email", value: "email" },
-                  { title: "Telephone", value: "tel" },
+                  { title: "Texto", value: "text" },
+                  { title: "Área de Texto", value: "textarea" },
+                  { title: "Correo Electrónico", value: "email" },
+                  { title: "Teléfono", value: "tel" },
                 ],
               },
               initialValue: 'text',
             }),
             defineField({
               name: 'isRequired',
-              title: 'Required',
+              title: 'Campo Obligatorio',
               type: 'boolean',
               initialValue: false
             }),

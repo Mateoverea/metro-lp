@@ -3,17 +3,17 @@ import { defineField, defineType, SanityDocumentLike } from "sanity";
 
 function isValidInternalPath(value: string | undefined) {
   if (!value) {
-    return "Value is required";
+    return "El valor es requerido";
   } else if (!value.startsWith("/")) {
-    return "Internal paths must start with /";
+    return "Las rutas internas deben comenzar con /";
   } else if (/[^a-zA-Z0-9\-_/:]/.test(value)) {
-    return "Source path contains invalid characters";
+    return "La ruta contiene caracteres inválidos";
   } else if (/:[^/]+:/.test(value)) {
-    return "Parameters can only contain one : directly after /";
+    return "Los parámetros solo pueden contener un : directamente después de /";
   } else if (
     value.split("/").some((part) => part.includes(":") && !part.startsWith(":"))
   ) {
-    return "The : character can only appear directly after /";
+    return "El carácter : solo puede aparecer directamente después de /";
   }
   return true;
 }
@@ -23,20 +23,20 @@ function isValidUrl(value: string | undefined) {
     new URL(value || "");
     return true;
   } catch {
-    return "Invalid URL";
+    return "URL inválida";
   }
 }
 
 export default defineType({
   name: "redirect",
-  title: "Redirect",
+  title: "Redirecciones",
   type: "document",
   icon: Link,
   validation: (Rule) => 
     Rule.custom((doc: SanityDocumentLike | undefined) => {
       if (doc && doc.source === doc.destination) {
         return ["source", "destination"].map((field) => ({
-          message: "Source and destination cannot be the same",
+          message: "El origen y destino no pueden ser iguales",
           path: [field],
         }));
       }
@@ -46,11 +46,13 @@ export default defineType({
   fields: [
     defineField({
       name: "source",
+      title: "Ruta de Origen",
       type: "string",
       validation: (Rule) => Rule.required().custom(isValidInternalPath),
     }),
     defineField({
       name: "destination",
+      title: "Ruta de Destino",
       type: "string",
       validation: (Rule) =>
         Rule.required().custom((value: string | undefined) => {
@@ -67,13 +69,15 @@ export default defineType({
     }),
     defineField({
       name: "permanent",
+      title: "Redirección Permanente",
       type: "boolean",
       initialValue: true,
-      description: "Should the redirect be permanent (301) or temporary (302)",
+      description: "¿Debe ser la redirección permanente (301) o temporal (302)?",
     }),
     defineField({
       name: "isEnabled",
-      description: "Toggle this redirect on or off",
+      title: "Activa",
+      description: "Activar o desactivar esta redirección",
       type: "boolean",
       initialValue: true,
     }),

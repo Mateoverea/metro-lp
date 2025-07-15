@@ -2,28 +2,28 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: 'blogSettings',
-  title: 'Blog Settings',
+  title: 'Configuración del Blog',
   type: 'document',
   fields: [
     defineField({
-      title: 'Show Related Posts',
+      title: 'Mostrar Artículos Relacionados',
       name: 'showRelatedPosts',
       type: 'boolean',
-      description: 'Enable to display 3 related posts at the end of each post.',
+      description: 'Habilitar para mostrar 3 artículos relacionados al final de cada artículo.',
       initialValue: true
     }),
     defineField({
-      title: 'Show Table of Contents',
+      title: 'Mostrar Tabla de Contenidos',
       name: 'showTableOfContents',
       type: 'boolean',
-      description: 'Enable to display a table of contents in the right sidebar of each post.',
+      description: 'Habilitar para mostrar una tabla de contenidos en la barra lateral derecha de cada artículo.',
       initialValue: true
     }),
     defineField({
-      title: 'Show Posts by Category',
+      title: 'Mostrar Artículos por Categoría',
       name: 'showPostsByCategory',
       type: 'boolean',
-      description: 'Enable to display post categories in right sidebar of each post.',
+      description: 'Habilitar para mostrar las categorías de artículos en la barra lateral derecha de cada artículo.',
       initialValue: true
     }),
   ]

@@ -5,20 +5,20 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'callToActionBlock',
-  title: 'Call To Action',
+  title: 'Llamada a la Acción',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'heading',
-      title: 'Heading',
+      title: 'Título',
       type: 'string',
       group: 'content',
     }),
     defineField({
       name: 'content',
-      title: 'Content',
+      title: 'Contenido',
       type: 'array',
       group: 'content',
       of: [
@@ -31,55 +31,55 @@ export default defineType({
     }),
     defineField({
       name: 'locationText',
-      title: 'Location Text',
+      title: 'Texto de Ubicación',
       type: 'text',
       group: 'content',
-      description: 'Describe your location or address',
+      description: 'Describe tu ubicación o dirección',
       rows: 3,
     }),
     defineField({
       name: 'googleMaps',
-      title: 'Google Maps Location',
+      title: 'Ubicación de Google Maps',
       type: 'object',
       group: 'content',
-      description: 'Embed Google Maps location',
+      description: 'Insertar ubicación de Google Maps',
       fields: [
         defineField({
           name: 'embedUrl',
-          title: 'Google Maps Embed URL',
+          title: 'URL de Inserción de Google Maps',
           type: 'text',
-          description: 'Get the embed URL from Google Maps (Share > Embed a map)',
+          description: 'Obtén la URL de inserción desde Google Maps (Compartir > Insertar mapa)',
           rows: 3,
         }),
         defineField({
           name: 'address',
-          title: 'Address',
+          title: 'Dirección',
           type: 'text',
-          description: 'Full address for display',
+          description: 'Dirección completa para mostrar',
           rows: 2,
         }),
         defineField({
           name: 'showMap',
-          title: 'Show Map',
+          title: 'Mostrar Mapa',
           type: 'boolean',
-          description: 'Toggle to show/hide the embedded map',
+          description: 'Alternar para mostrar/ocultar el mapa insertado',
           initialValue: true,
         }),
       ]
     }),
     defineField({
       name: 'button',
-      title: 'Action Button',
+      title: 'Botón de Acción',
       type: 'buttonObject',
       group: 'content',
-      description: 'Main call-to-action button',
+      description: 'Botón principal de llamada a la acción',
     }),
     defineField({
       name: 'anchorId',
-      title: 'Anchor ID',
+      title: 'ID del Ancla',
       type: 'string',
       group: 'settings',
-      description: 'Unique ID for linking to this section',
+      description: 'ID único para enlazar a esta sección',
     }),
   ],
   preview: {
@@ -89,8 +89,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'No title set. Add one inside this block',
-        subtitle: 'Call To Action with Location & Maps',
+        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
+        subtitle: 'Llamada a la Acción con Ubicación y Mapas',
         media: Clapperboard,
       }
     },

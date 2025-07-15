@@ -4,14 +4,14 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'blogPage',
-  title: 'Blog Page',
+  title: 'Página del Blog',
   type: 'document',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Título',
       type: 'string',
     }),
     defineField({
@@ -24,9 +24,9 @@ export default defineType({
     }),
     defineField({
       name: 'pageBuilder',
-      title: 'Page Builder',
+      title: 'Constructor de Páginas',
       type: 'pageBuilder',
-      description: 'These blocks will be displayed below the main content.'
+      description: 'Estos bloques se mostrarán debajo del contenido principal.'
     }),
     defineField({
       name: "seo",

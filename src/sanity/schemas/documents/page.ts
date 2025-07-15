@@ -5,7 +5,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'page',
-  title: 'Page',
+  title: 'Páginas',
   type: 'document',
   icon: File,
   fieldsets: [ ...fieldsets ],
@@ -13,7 +13,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Título',
       type: 'string',
       validation: rule => rule.required()
     }),
@@ -28,7 +28,7 @@ export default defineType({
     }),
     defineField({
       name: 'pageBuilder',
-      title: 'Page Builder',
+      title: 'Constructor de Páginas',
       type: 'pageBuilder',
     }),
     defineField({
