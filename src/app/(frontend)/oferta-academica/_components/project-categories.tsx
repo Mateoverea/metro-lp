@@ -17,15 +17,15 @@ export default function ProjectCategories({ categories }: ProjectCategoriesProps
     <ul className='relative z-20 flex items-center justify-start gap-0 md:gap-2'>
       <li className="text-nowrap">
         <CategoryLink
-          href={`/projects`}
+          href={`/oferta-academica`}
         >
-          All Projects
+          Toda la Oferta
         </CategoryLink>
       </li>
       {categories?.map((category) => (
         <li key={category._id} className="text-nowrap">
           <CategoryLink
-            href={`/projects/category/${category.slug}`}
+            href={`/oferta-academica/category/${category.slug}`}
             category={category}
           >
             {category.title}
@@ -45,8 +45,8 @@ function CategoryLink({ href, category, children }: {
   const pathname = usePathname();
 
   const isActive = category 
-    ? pathname === `/projects/category/${category.slug}`
-    : pathname === '/projects';
+            ? pathname === `/oferta-academica/category/${category.slug}`
+        : pathname === '/oferta-academica';
 
   return (
     <Link 

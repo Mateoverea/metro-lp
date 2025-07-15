@@ -7,11 +7,11 @@ export const ProjectsItem = (
   context: StructureResolverContext
 ) => (
   S.listItem()
-    .title('Projects')
+    .title('Oferta Académica')
     .icon(Folder)
     .child(
       S.list()
-        .title('Projects')
+        .title('Oferta Académica')
         .items([
           AllProjects(S),
           ProjectCategories(S, context),
@@ -23,11 +23,11 @@ export const AllProjects = (
   S: StructureBuilder, 
 ) => (
   S.listItem()
-    .title('Projects')
+    .title('Programas')
     .icon(Folder)
     .child(
       S.documentList()
-      .title('All Projects')
+      .title('Todos los Programas')
       .filter('_type == "project"')
     ) 
 )
@@ -41,7 +41,7 @@ export const ProjectCategories = (
     context, 
     icon: Tag, 
     type: 'projectCategory', 
-    title: 'Categories', 
+    title: 'Categorías', 
     id: 'orderable-project-categories'
   })
 )

@@ -10,11 +10,9 @@ import post from "./documents/post";
 import postCategory from "./documents/post-category";
 import author from "./documents/author";
 import testimonial from "./documents/testimonial";
-import service from "./documents/service";
 import form from "./documents/form";
 import project from "./documents/project";
 import projectCategory from "./documents/project-category";
-import servicesPage from "./singletons/pages/services-page";
 import blogPage from "./singletons/pages/blog-page";
 import projectsPage from "./singletons/pages/projects-page";
 
@@ -33,8 +31,6 @@ const coreSchema = [
   project,
   form,
   blogPage,
-  service,
-  servicesPage,
   projectsPage,
 ];
 
@@ -48,7 +44,6 @@ import callToActionBlock from "./page-builder/blocks/call-to-action-block";
 import testimonialBlock from "./page-builder/blocks/testimonial-block";
 import portableTextBlock from "./page-builder/blocks/portable-text-block";
 import freeformBlock from "./page-builder/blocks/freeform-block";
-import servicesBlock from "./page-builder/blocks/services-block";
 import formBlock from "./page-builder/blocks/form-block";
 import mediaBlock from "./page-builder/blocks/media-block";
 
@@ -64,7 +59,6 @@ const pageBuilderSchema = [
   logoBlock,
   mediaBlock,
   testimonialBlock,
-  servicesBlock,
   formBlock
 ];
 

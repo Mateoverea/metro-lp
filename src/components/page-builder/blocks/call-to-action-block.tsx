@@ -1,12 +1,11 @@
 "use client"
 
-import Image from 'next/image';
 import Heading from '@/components/shared/heading';
 import Container from '@/components/global/container';
 import { Button } from '@/components/ui/button';
 import PortableTextEditor from '@/components/portable-text/portable-text-editor';
 import ElegantText from '@/components/shared/elegant-text';
-import { MapPin, MessageCircle, ExternalLink } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 // TypeScript interface matching our enhanced call-to-action schema
 interface EnhancedCallToActionBlock {
@@ -31,35 +30,8 @@ interface EnhancedCallToActionBlock {
     _type: "block";
     _key: string;
   }>;
-  // New enhanced fields
-  featuredImage?: {
-    asset?: {
-      _ref?: string;
-      _type?: "reference";
-      url?: string;
-    };
-    alt?: string;
-    _type?: "image";
-  };
+  // Enhanced fields
   locationText?: string;
-  socialMediaPlatforms?: Array<{
-    _key: string;
-    platform?: string;
-    profileUrl?: string;
-    icon?: {
-      asset?: {
-        _ref?: string;
-        _type?: "reference";
-        url?: string;
-      };
-      _type?: "image";
-    };
-  }>;
-  whatsappContact?: {
-    phoneNumber?: string;
-    message?: string;
-    buttonText?: string;
-  };
   googleMaps?: {
     embedUrl?: string;
     address?: string;
@@ -99,21 +71,11 @@ export default function CallToActionBlock(props: CallToActionBlockProps) {
   const { 
     heading, 
     content, 
-    featuredImage,
     locationText,
-    socialMediaPlatforms,
-    whatsappContact,
     googleMaps,
     button,
     anchorId
   } = props;
-
-  // Helper function to generate WhatsApp URL
-  const generateWhatsAppUrl = (phoneNumber?: string, message?: string) => {
-    if (!phoneNumber) return '#';
-    const encodedMessage = message ? encodeURIComponent(message) : '';
-    return `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}${encodedMessage ? `?text=${encodedMessage}` : ''}`;
-  };
 
   // Helper function to extract embed URL from Google Maps
   const extractEmbedUrl = (url?: string) => {
@@ -178,63 +140,10 @@ export default function CallToActionBlock(props: CallToActionBlockProps) {
               </ElegantText>
             )}
 
-            {/* Social Media Platforms */}
-            {socialMediaPlatforms && socialMediaPlatforms.length > 0 && (
+            {/* Main Action Button */}
+            {button && button.showButton && (
               <ElegantText variant="fade-up" delay={0.4}>
-                <div className='space-y-4'>
-                  <div className='flex items-center gap-2'>
-                    <ExternalLink className='w-5 h-5 text-university-navy' />
-                    <h3 className='font-semibold text-university-navy text-lg'>Síguenos</h3>
-                  </div>
-                  <div className='flex flex-wrap gap-3'>
-                    {socialMediaPlatforms.map((platform) => (
-                      <a
-                        key={platform._key}
-                        href={platform.profileUrl || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className='group flex items-center gap-3 px-4 py-3 bg-white border border-university-academic-200 rounded-lg hover:border-university-navy hover:bg-university-academic-50 transition-all duration-300 shadow-sm hover:shadow-md'
-                      >
-                        {platform.icon?.asset?.url && (
-                          <Image
-                            src={platform.icon.asset.url}
-                            alt={`${platform.platform} icon`}
-                            width={20}
-                            height={20}
-                            className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200"
-                          />
-                        )}
-                        <span className='text-sm font-medium text-university-academic-700 group-hover:text-university-navy'>
-                          {platform.platform}
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </ElegantText>
-            )}
-
-            {/* Action Buttons Row */}
-            <ElegantText variant="fade-up" delay={0.5}>
-              <div className='flex flex-col sm:flex-row gap-6 pt-6'>
-                
-                {/* WhatsApp Contact */}
-                {whatsappContact?.phoneNumber && (
-                  <a
-                    href={generateWhatsAppUrl(whatsappContact.phoneNumber, whatsappContact.message)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className='group inline-flex items-center justify-center gap-3 px-6 py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl transition-all duration-300 shadow-university hover:shadow-university-lg transform hover:-translate-y-1 min-w-[200px]'
-                  >
-                    <MessageCircle className='w-5 h-5 group-hover:scale-110 transition-transform duration-200' />
-                    <span className='font-semibold'>
-                      {whatsappContact.buttonText || 'Chat en WhatsApp'}
-                    </span>
-                  </a>
-                )}
-
-                {/* Main Action Button */}
-                {button && button.showButton && (
+                <div className='pt-6'>
                   <Button
                     variant={button.buttonVariant || 'primary'}
                     size="default"
@@ -251,32 +160,17 @@ export default function CallToActionBlock(props: CallToActionBlockProps) {
                   >
                     {button.buttonText}
                   </Button>
-                )}
-              </div>
-            </ElegantText>
+                </div>
+              </ElegantText>
+            )}
           </div>
 
           {/* Right Column - Visual Content */}
           <div className='col-span-12 lg:col-span-7 space-y-8'>
             
-            {/* Featured Image */}
-            {featuredImage?.asset?.url && (
-              <ElegantText variant="fade-up" delay={0.6}>
-                <div className='relative overflow-hidden rounded-xl shadow-university hover:shadow-university-lg transition-all duration-300'>
-                  <Image
-                    src={featuredImage.asset.url}
-                    alt={featuredImage.alt || 'Imagen destacada'}
-                    width={600}
-                    height={400}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              </ElegantText>
-            )}
-
             {/* Google Maps Integration */}
             {googleMaps?.showMap && googleMaps.embedUrl && (
-              <ElegantText variant="fade-up" delay={0.7}>
+              <ElegantText variant="fade-up" delay={0.5}>
                 <div className='space-y-4'>
                   {googleMaps.address && (
                     <div className='p-4 bg-university-academic-50 border border-university-academic-200 rounded-lg'>

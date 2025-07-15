@@ -40,7 +40,7 @@ export function ProjectSearch({ projects, classNames }: ProjectSearchProps) {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
         <Input
           type="text"
-          placeholder="Search projects..."
+          placeholder="Buscar programas..."
           value={searchTerm}
           onChange={handleInputChange}
           className="h-10 pl-9 pr-10 w-full rounded-full shadow-none bg-gray-50 placeholder:text-gray-500"
@@ -62,7 +62,7 @@ export function ProjectSearch({ projects, classNames }: ProjectSearchProps) {
             {searchResults?.map((project, index) => (
               <React.Fragment key={project?._id}>
                 <li className="px-4 py-3 cursor-pointer rounded-lg hover:bg-gray-200/60">
-                  <Link href={`/projects/${project?.slug}`}>
+                  <Link href={`/oferta-academica/${project?.slug}`}>
                     <h3 className="text-sm font-medium text-balance">
                       {highlightMatch(project.title ?? '', searchTerm)}
                     </h3>

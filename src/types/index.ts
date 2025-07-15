@@ -1,11 +1,18 @@
 import { PageBySlugQueryResult } from "../../sanity.types";
 
-export type PageBuilderBlockTypes = NonNullable<
+// Helper type to filter out empty objects and extract only valid blocks
+type ValidPageBuilderBlocks = NonNullable<
   NonNullable<PageBySlugQueryResult>["pageBuilder"]
->[number]["_type"];
+>[number] extends infer U 
+  ? U extends { _type: string }
+    ? U
+    : never
+  : never;
+
+export type PageBuilderBlockTypes = ValidPageBuilderBlocks["_type"];
 
 export type PageBuilderType<T extends PageBuilderBlockTypes> = Extract<
-  NonNullable<NonNullable<PageBySlugQueryResult>["pageBuilder"]>[number],
+  ValidPageBuilderBlocks,
   { _type: T }
 >;
 

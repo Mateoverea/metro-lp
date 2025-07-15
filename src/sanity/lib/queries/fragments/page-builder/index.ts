@@ -10,7 +10,7 @@ import {
   freeformBlockQuery,
   portableTextBlockQuery,
   blogArchiveBlockQuery,
-  servicesBlockQuery,
+
   formBlockQuery,
   mediaBlockQuery,
 } from "./blocks";
@@ -28,7 +28,7 @@ export const pageBuilder = `
     ${freeformBlockQuery},
     ${portableTextBlockQuery},
     ${blogArchiveBlockQuery},
-    ${servicesBlockQuery},
+  
     ${formBlockQuery},
     ${mediaBlockQuery}
   }

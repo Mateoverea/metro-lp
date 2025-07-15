@@ -13,7 +13,7 @@ export default function ProjectCard({ project }: {
 
   return (
     <article aria-label={title ?? ''} className='relative group pb-10 border-b border-dashed'>
-      <Link href={`/projects/${slug}`} className='relative'>
+      <Link href={`/oferta-academica/${slug}`} className='relative'>
         <Category>
           {category?.title}
         </Category>

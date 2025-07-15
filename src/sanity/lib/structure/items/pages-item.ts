@@ -26,9 +26,8 @@ export const IndexPages = (
       S.list()
         .title('Index Pages')
         .items([
-          BlogItem(S),
-          ProjectsItem(S),
-          ServicesItem(S)
+                BlogItem(S),
+      ProjectsItem(S)
         ])
     ) 
 )
@@ -59,30 +58,18 @@ export const BlogItem = (
     )
 )
 
-export const ServicesItem = (
-  S: StructureBuilder, 
-) => (
-  S.listItem()
-    .title('Services')
-    .child(
-      S.document()
-      .id('servicesPage')
-      .schemaType('servicesPage')
-      .documentId('servicesPage')
-      .title('Services')
-    )
-)
+
 
 export const ProjectsItem = (
   S: StructureBuilder, 
 ) => (
   S.listItem()
-    .title('Projects')
+    .title('Oferta Académica')
     .child(
       S.document()
       .id('projectsPage')
       .schemaType('projectsPage')
       .documentId('projectsPage')
-      .title('Projects')
+      .title('Oferta Académica')
     )
 )

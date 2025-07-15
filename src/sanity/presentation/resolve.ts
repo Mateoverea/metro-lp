@@ -31,21 +31,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
         ],
       }),
     }),
-    service: defineLocations({
-      select: {
-        title: 'title',
-        slug: 'slug.current',
-      },
-      resolve: (doc) => ({
-        locations: [
-          {
-            title: doc?.title || 'Untitled',
-            href: `/services/${doc?.slug}`,
-          },
-          { title: 'Services', href: `/services` },
-        ],
-      }),
-    }),
+    
     project: defineLocations({
       select: {
         title: 'title',
@@ -55,9 +41,9 @@ export const resolve: PresentationPluginOptions['resolve'] = {
         locations: [
           {
             title: doc?.title || 'Untitled',
-            href: `/projects/${doc?.slug}`,
+            href: `/oferta-academica/${doc?.slug}`,
           },
-          { title: 'Projects Index', href: `/projects` },
+          { title: 'Oferta Académica', href: `/oferta-academica` },
         ],
       }),
     }),
@@ -75,10 +61,7 @@ export const resolve: PresentationPluginOptions['resolve'] = {
       route: "/projects/:slug",
       filter: `_type == 'project' && slug.current == $slug`,
     },
-    {
-      route: "/services/:slug",
-      filter: `_type == 'service' && slug.current == $slug`,
-    },
+
     {
       route: "/blog/:slug",
       filter: `_type == 'post' && slug.current == $slug`,

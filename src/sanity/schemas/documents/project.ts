@@ -5,7 +5,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'project',
-  title: 'Projects',
+  title: 'Programas Académicos',
   type: 'document',
   icon: BriefcaseBusiness,
   fieldsets: [ ...fieldsets ],
@@ -13,7 +13,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Nombre del Programa',
       type: 'string',
     }),
     defineField({
@@ -27,30 +27,30 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Project Category',
+      title: 'Categoría del Programa',
       type: 'reference',
       to: [{ type: 'projectCategory' }],
       validation: rule => rule.required()
     }),
     defineField({
       name: 'excerpt',
-      title: 'Excerpt',
+      title: 'Descripción Breve',
       type: 'text',
       rows: 4  
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Imagen',
       type: 'image',
       fields: [
         defineField({
           name: 'altText',
-          title: 'Alternative Text',
+          title: 'Texto Alternativo',
           type: 'string'
         }),
         defineField({
           name: 'caption',
-          title: 'Caption',
+          title: 'Descripción',
           type: 'string'
         }),
       ],

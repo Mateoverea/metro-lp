@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!category) { return {} };
 
   return {
-    title: `${category?.title} Projects`,
-    description: `Browse our collection of ${category?.title?.toLowerCase()} projects.`
+    title: `${category?.title} - Oferta Académica`,
+    description: `Explora nuestra oferta académica en ${category?.title?.toLowerCase()}.`
   }
 }
 
@@ -47,7 +47,7 @@ export default async function ProjectsByCategoryPage(props: {
   if (projects.length === 0) {
     return (
       <div className="py-20 flex items-center justify-center gap-2 border border-dashed rounded-3xl text-center text-gray-600 bg-white">
-        <CircleSlash size={20} className='text-red-500' /> <span className='font-medium antialiased'>No projects found in this category.</span>
+        <CircleSlash size={20} className='text-red-500' /> <span className='font-medium antialiased'>No se encontraron programas en esta categoría.</span>
       </div>
     )
   }

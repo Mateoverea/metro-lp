@@ -4,14 +4,14 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'projectsPage',
-  title: 'Projects Page',
+  title: 'Página de Oferta Académica',
   type: 'document',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Título de la Página',
       type: 'string',
     }),
     defineField({

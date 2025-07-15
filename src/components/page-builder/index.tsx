@@ -1,7 +1,6 @@
 "use client"
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
-import { PageBuilderType } from "@/types";
 import { createDataAttribute } from "next-sanity";
 import { PageBySlugQueryResult } from "../../../sanity.types";
 import { dataset, projectId, studioUrl } from "@/sanity/lib/api";
@@ -15,7 +14,6 @@ const FreeformBlock = dynamic(() => import("./blocks/freeform-block"));
 const PortableTextBlock = dynamic(() => import("./blocks/portable-text-block"));
 const CallToActionBlock = dynamic(() => import("./blocks/call-to-action-block"));
 const FeaturesMinimalBlock = dynamic(() => import("./blocks/features-minimal-block"));
-const ServicesBlock = dynamic(() => import("./blocks/services-block"));
 const FormBlock = dynamic(() => import("./blocks/form-block"));
 const MediaBlock = dynamic(() => import("./blocks/media-block"));
 
@@ -39,12 +37,9 @@ const PB_BLOCKS = {
   portableTextBlock: PortableTextBlock,
   callToActionBlock: CallToActionBlock,
   featuresMinimalBlock: FeaturesMinimalBlock,
-  servicesBlock: ServicesBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
 } as const;
-
-type BlockType = keyof typeof PB_BLOCKS;
 
 export function PageBuilder({ pageBuilder, id, type }: PageBuilderProps) {
   return (
@@ -59,7 +54,19 @@ export function PageBuilder({ pageBuilder, id, type }: PageBuilderProps) {
       }).toString()}
     >
       {pageBuilder.map((block) => {
-        const Component = PB_BLOCKS[block._type] as ComponentType<PageBuilderType<BlockType>>;
+        // Type guard to ensure block has the required properties
+        if (!block || typeof block !== 'object' || !('_type' in block) || !('_key' in block)) {
+          return null;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const Component = PB_BLOCKS[block._type as keyof typeof PB_BLOCKS] as ComponentType<any>;
+        
+        if (!Component) {
+          console.warn(`Unknown block type: ${block._type}`);
+          return null;
+        }
+
         return (
           <div
             key={`${block._type}-${block._key}`}

@@ -38,13 +38,13 @@ export default async function ProjectPage({ params }: PageProps) {
     params: await params
   });
 
-  if (project === null) notFound();
+  if (!project || !project._id || !project._type) notFound();
   
   return (
     <PageBuilder
-      id={project?._id ?? ''}
-      type={project?._type ?? ''}
-      pageBuilder={project?.pageBuilder ?? []}
+      id={project._id}
+      type={project._type}
+      pageBuilder={project.pageBuilder ?? []}
     />
   )
 }

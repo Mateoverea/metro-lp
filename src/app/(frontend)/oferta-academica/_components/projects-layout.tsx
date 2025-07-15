@@ -16,14 +16,14 @@ export default function ProjectsLayout({ children, page }: Readonly<{
 
   const { categories, projects, title } = page ?? {};
 
-  if (pathname === '/projects' || pathname.includes('/projects/category/')) return (
+  if (pathname === '/oferta-academica' || pathname.includes('/oferta-academica/category/')) return (
     <main className='overflow-hidden md:overflow-auto'>
       <div className='px-4 xl:px-10 pattern-bg'>
         <Container className='px-4 pt-32 md:pt-40 pb-14 md:pb-28 border-x border-dashed'>
           <Heading tag="h1" size="xxxl">
             {title}
           </Heading>
-          {(pathname === '/projects' || pathname.includes('/projects/category/')) && (
+          {(pathname === '/oferta-academica' || pathname.includes('/oferta-academica/category/')) && (
             <ProjectToolbar categories={categories} projects={projects} />
           )}
           {children}
