@@ -3,23 +3,23 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: 'callToActionObject',
-  title: 'Llamada a la Acción',
+  title: 'Call To Action',
   type: 'object',
   fields: [
     defineField({
       name: 'callToActionTitle',
       type: 'string',
-      title: 'Título',
+      title: 'Title',
     }),
     defineField({
       name: 'callToActionParagraph',
       type: 'text',
-      title: 'Párrafo',
+      title: 'Paragraph',
       rows: 4
     }),
     defineField({
       name: 'buttons',
-      title: 'Botones',
+      title: 'Buttons',
       type: 'array',
       of: [{ type: 'buttonObject' }],
     }),
@@ -31,8 +31,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
-        subtitle: 'Llamada a la Acción',
+        title: title ?? 'No title set. Add one inside this block',
+        subtitle: 'Call To Action',
         media: Clapperboard,
       }
     },

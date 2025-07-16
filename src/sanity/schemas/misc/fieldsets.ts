@@ -1,17 +1,17 @@
 export const fieldsets = [
-  { name: 'content', title: 'Contenido' },
+  { name: 'content', title: 'Content' },
   { name: 'seo', title: 'SEO' },
-  { name: 'settings', title: 'Configuración de Página' },
-  { name: 'appearance', title: 'Apariencia' },
-  { name: 'navbar', title: 'Barra de Navegación' },
-  { name: 'slideOutMenu', title: 'Menú Deslizante' },
-  { name: 'footer', title: 'Pie de Página' },
+  { name: 'settings', title: 'Page Settings' },
+  { name: 'appearance', title: 'Appearance' },
+  { name: 'navbar', title: 'Navbar' },
+  { name: 'slideOutMenu', title: 'Slide Out Menu' },
+  { name: 'footer', title: 'Footer' },
   { 
     name: 'padding', 
-    title: 'Espaciado',
+    title: 'Padding',
     options: {
       columns: 2
     } 
   },
-  { name: 'mobileMenu', title: 'Menú Móvil' },
+  { name: 'mobileMenu', title: 'Mobile Menu' },
 ]

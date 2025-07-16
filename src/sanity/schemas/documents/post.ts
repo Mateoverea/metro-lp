@@ -5,7 +5,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'post',
-  title: 'Artículos del Blog',
+  title: 'Posts',
   type: 'document',
   icon: FiFile,
   fieldsets: [ ...fieldsets ],
@@ -13,7 +13,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: rule => rule.required()
     }),
@@ -28,27 +28,27 @@ export default defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Categoría',
+      title: 'Category',
       type: 'reference',
       to: { type: 'postCategory' },
       validation: rule => rule.required()
     }),
     defineField({
       name: 'author',
-      title: 'Autor',
+      title: 'Author',
       type: 'reference',
       to: { type: 'author' },
       validation: rule => rule.required()
     }),
     defineField({
       name: 'excerpt',
-      title: 'Extracto',
+      title: 'Excerpt',
       type: 'text',
       rows: 4  
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [
         { type: 'block' },
@@ -59,17 +59,17 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Imagen',
+      title: 'Image',
       type: 'image',
       fields: [
         defineField({
           name: 'altText',
-          title: 'Texto Alternativo',
+          title: 'Alternative Text',
           type: 'string'
         }),
         defineField({
           name: 'caption',
-          title: 'Descripción',
+          title: 'Caption',
           type: 'string'
         }),
       ],

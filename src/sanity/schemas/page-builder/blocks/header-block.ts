@@ -5,19 +5,19 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'headerBlock',
-  title: 'Encabezado',
+  title: 'Header',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'heading',
-      title: 'Título',
+      title: 'Heading',
       type: 'string',
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [
         { 
@@ -28,20 +28,20 @@ export default defineType({
       ],
     }),
     defineField({
-      title: "Borde Redondeado - Inferior I/D",
+      title: "Corner Radius - Bottom L/R",
       name: "bottomCornerRadius",
       type: "string",
       options: {
         list: [
-          { title: "Recto", value: "straight" },
-          { title: "Redondeado", value: "rounded" },
+          { title: "Straight", value: "straight" },
+          { title: "Rounded", value: "rounded" },
         ],
       },
       initialValue: 'straight',
     }),
     defineField({
       name: 'anchorId',
-      title: 'ID del Ancla',
+      title: 'Anchor ID',
       type: 'string',
     }),
   ],
@@ -53,8 +53,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
-        subtitle: 'Encabezado',
+        title: title ?? 'No title set. Add one inside this block',
+        subtitle: 'Header',
         media: GalleryVertical,
       }
     },

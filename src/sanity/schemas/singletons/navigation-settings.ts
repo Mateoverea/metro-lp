@@ -5,14 +5,14 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export default defineType({
   name: 'navigationSettings',
-  title: 'Configuración de Navegación',
+  title: 'Navigation Settings',
   type: 'document',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'navbarMenuItems',
-      title: 'Elementos del Menú',
+      title: 'Menu Items',
       type: 'array',
       group: 'navbar',
       fieldset: 'navbar',
@@ -21,33 +21,33 @@ export default defineType({
           type: 'object',
           fields: [
             defineField({
-              title: "Tipo de Elemento de Menú",
+              title: "Menu Item Type",
               name: "menuItemType",
               type: "string",
               options: {
                 list: [
-                  { title: "Individual", value: "single" },
-                  { title: "Grupo", value: "group" },
+                  { title: "Single", value: "single" },
+                  { title: "Group", value: "group" },
                 ],
               },
               initialValue: 'single',
             }),
             defineField({
               name: 'title',
-              title: 'Título',
+              title: 'Title',
               type: 'string',
-              description: 'El título del elemento del menú.'
+              description: 'The title of the menu item.'
             }),
             defineField({
               name: 'pageReference',
-              title: 'Página',
-              description: 'La página a la que enlazará el elemento del menú.',
+              title: 'Page',
+              description: 'The page that the menu item will link to.',
               type: 'reference',
               to: [ ...pageReferenceTypes ],
               hidden: ({ parent }) => parent?.menuItemType !== 'single'
             }),
             defineField({
-              title: "Referencias de Páginas",
+              title: "Page References",
               name: "pageReferences",
               type: "array",
               of: [{ 
@@ -58,9 +58,9 @@ export default defineType({
             }),
             defineField({
               name: 'isButton',
-              title: 'Mostrar como Botón',
+              title: 'Show as Button',
               type: 'boolean',
-              description: 'Si está marcado, el elemento del menú se mostrará como un botón en lugar de un enlace.',
+              description: 'If checked, the menu item will be shown as a button instead of a link.',
               initialValue: false,
               hidden: ({ parent }) => parent?.menuItemType !== 'single'
             })
@@ -70,7 +70,7 @@ export default defineType({
     }),
     defineField({
       name: 'showSlideOutMenu',
-      title: 'Mostrar Menú Deslizante',
+      title: 'Show Slide-Out Menu',
       type: 'boolean',
       group: 'slideOutMenu',
       fieldset: 'slideOutMenu',
@@ -78,7 +78,7 @@ export default defineType({
     }),
     defineField({
       name: 'slideOutMenuItems',
-      title: 'Elementos del Menú',
+      title: 'Menu Items',
       type: 'array',
       group: 'slideOutMenu',
       fieldset: 'slideOutMenu',
@@ -87,33 +87,33 @@ export default defineType({
           type: 'object',
           fields: [
             defineField({
-              title: "Tipo de Elemento de Menú",
+              title: "Menu Item Type",
               name: "menuItemType",
               type: "string",
               options: {
                 list: [
-                  { title: "Individual", value: "single" },
-                  { title: "Grupo", value: "group" },
+                  { title: "Single", value: "single" },
+                  { title: "Group", value: "group" },
                 ],
               },
               initialValue: 'single',
             }),
             defineField({
               name: 'title',
-              title: 'Título',
+              title: 'Title',
               type: 'string',
-              description: 'El título del elemento del menú.'
+              description: 'The title of the menu item.'
             }),
             defineField({
               name: 'pageReference',
-              title: 'Página',
-              description: 'La página a la que enlazará el elemento del menú.',
+              title: 'Page',
+              description: 'The page that the menu item will link to.',
               type: 'reference',
               to: [ ...pageReferenceTypes ],
               hidden: ({ parent }) => parent?.menuItemType !== 'single'
             }),
             defineField({
-              title: "Referencias de Páginas",
+              title: "Page References",
               name: "pageReferences",
               type: "array",
               of: [{ 
@@ -124,9 +124,9 @@ export default defineType({
             }),
             defineField({
               name: 'isButton',
-              title: 'Mostrar como Botón',
+              title: 'Show as Button',
               type: 'boolean',
-              description: 'Si está marcado, el elemento del menú se mostrará como un botón en lugar de un enlace.',
+              description: 'If checked, the menu item will be shown as a button instead of a link.',
               initialValue: false
             })
           ]
@@ -136,25 +136,25 @@ export default defineType({
     }),
     defineField({
       name: 'slideOutMenuButtons',
-      title: 'Botones',
+      title: 'Buttons',
       type: 'array',
       group: 'slideOutMenu',
       fieldset: 'slideOutMenu',
       of: [{ type: 'buttonObject' }],
-      description: 'Mostrar botones en el pie del menú deslizante.'
+      description: 'Display buttons in the footer of the slide-out menu.'
     }),
     defineField({
       name: 'showCompanyDetailsSlideOutMenu',
-      title: 'Mostrar Detalles de la Empresa',
+      title: 'Show Company Details',
       type: 'boolean',
       group: 'slideOutMenu',
       fieldset: 'slideOutMenu',
-      description: 'Cuando esté habilitado, los detalles de la empresa (email, teléfono y redes sociales) agregados en la configuración general se mostrarán en el menú deslizante debajo de los elementos del menú.',
+      description: 'When enabled, company details (email, phone & socials) added in general settings will be displayed in the slide-out menu below the menu items.',
       initialValue: false
     }),
     defineField({
       name: 'footerColumns',
-      title: 'Columnas del Pie de Página',
+      title: 'Footer Columns',
       type: 'array',
       group: 'footer',
       fieldset: 'footer',
@@ -164,12 +164,12 @@ export default defineType({
           fields: [
             defineField({
               name: 'title',
-              title: 'Título de la Columna',
+              title: 'Column Title',
               type: 'string',
             }),
             defineField({
               name: 'menuItems',
-              title: 'Elementos del Menú',
+              title: 'Menu Items',
               type: 'array',
               of: [
                 {
@@ -177,34 +177,34 @@ export default defineType({
                   fields: [
                     defineField({
                       name: 'title',
-                      title: 'Título',
+                      title: 'Title',
                       type: 'string',
-                      description: 'El título del elemento del menú.'
+                      description: 'The title of the menu item.'
                     }),
                     defineField({
-                      title: "Tipo de Enlace",
+                      title: "Link Type",
                       name: "linkType",
                       type: "string",
                       options: {
                         list: [
-                          { title: "Interno", value: "internal" },
-                          { title: "URL Externa", value: "external" },
+                          { title: "Internal", value: "internal" },
+                          { title: "External URL", value: "external" },
                         ],
                       },
                       initialValue: 'internal',
                     }),
                     defineField({
                       name: 'pageReference',
-                      title: 'Página',
-                      description: 'La página a la que enlazará el elemento del menú.',
+                      title: 'Page',
+                      description: 'The page that the menu item will link to.',
                       type: 'reference',
                       to: [ ...pageReferenceTypes ],
                       hidden: ({ parent }) => parent?.linkType !== 'internal',
                     }),
                     defineField({
                       name: 'externalUrl',
-                      title: 'URL Externa',
-                      description: 'La URL externa a la que enlazará el elemento del menú.',
+                      title: 'External URL',
+                      description: 'The external URL that the menu item will link to.',
                       type: 'url',
                       validation: Rule => Rule.uri({ scheme: ['http', 'https', 'mailto', 'tel'] }),
                       hidden: ({ parent }) => parent?.linkType !== 'external',
@@ -219,7 +219,7 @@ export default defineType({
     }),
     defineField({
       name: 'footerLegalMenuItems',
-      title: 'Elementos del Menú Legal',
+      title: 'Legal Menu Items',
       type: 'array',
       group: 'footer',
       fieldset: 'footer',
@@ -229,14 +229,14 @@ export default defineType({
           fields: [
             defineField({
               name: 'title',
-              title: 'Título',
+              title: 'Title',
               type: 'string',
-              description: 'El título del elemento del menú.'
+              description: 'The title of the menu item.'
             }),
             defineField({
               name: 'pageReference',
-              title: 'Página',
-              description: 'La página a la que enlazará el elemento del menú.',
+              title: 'Page',
+              description: 'The page that the menu item will link to.',
               type: 'reference',
               to: [ ...pageReferenceTypes ]
             }),
@@ -248,7 +248,7 @@ export default defineType({
   preview: {
     prepare() {
       return {
-        title: 'Navegación',
+        title: 'Navigation',
       }
     },
   },

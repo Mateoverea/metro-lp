@@ -5,7 +5,7 @@ import { pageReferenceTypes } from "../misc/page-reference-types";
 
 export default defineType({
   name: 'generalSettings',
-  title: 'Configuración General',
+  title: 'General Settings',
   type: 'document',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
@@ -13,35 +13,35 @@ export default defineType({
     defineField({
       name: "siteTitle",
       type: "string",
-      title: "Título del Sitio",
+      title: "Site Title",
     }),
     defineField({
-      title: 'Logotipo',
+      title: 'Logo',
       name: 'siteLogo',
       type: 'image',
     }),
     defineField({
       name: 'homePage',
-      title: 'Página de Inicio',
+      title: 'Home Page',
       type: 'reference',
-      description: 'Elige qué página quieres establecer como página de inicio.',
+      description: 'Choose which page you would like to set as the homepage.',
       to: [ ...pageReferenceTypes ]
     }),
     defineField({
-      title: 'Correo Electrónico',
+      title: 'Email Address',
       name: 'companyEmailAddress',
       type: 'string',
       group: 'companyDetails'
     }),
     defineField({
-      title: 'Número de Teléfono',
+      title: 'Phone Number',
       name: 'companyPhoneNumber',
       type: 'string',
       group: 'companyDetails'
     }),
     defineField({
       name: 'companySocialMediaLinks',
-      title: 'Enlaces de Redes Sociales',
+      title: 'Social Media Links',
       type: 'array',
       group: 'companyDetails',
       of: [{
@@ -49,17 +49,17 @@ export default defineType({
         fields: [
           defineField({
             name: 'title',
-            title: 'Nombre de la Plataforma',
+            title: 'Platform Name',
             type: 'string',
           }),
           defineField({
             name: 'profileUrl',
-            title: 'URL del Perfil',
+            title: 'Profile URL',
             type: 'url',
           }),
           defineField({
             name: 'icon',
-            title: 'Icono',
+            title: 'Icon',
             type: 'image',
           }),
         ]
@@ -69,13 +69,13 @@ export default defineType({
       name: "copyright",
       type: "string",
       title: "Copyright",
-      description: 'El año actual y el símbolo © se añadirán automáticamente.'
+      description: 'Current year and © symbol will be added automatically.'
     }),
   ],
   preview: {
     prepare() {
       return {
-        title: 'Configuración General',
+        title: 'General Settings',
       }
     },
   },

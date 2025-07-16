@@ -6,19 +6,19 @@ import { AlignmentInput, alignmentOptions } from "@/sanity/components/alignment-
 
 export default defineType({
   name: 'portableTextBlock',
-  title: 'Texto Enriquecido',
+  title: 'Portable Text',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [
         { type: 'block' },
@@ -26,7 +26,7 @@ export default defineType({
       ],
     }),
     defineField({
-      title: "Alineación",
+      title: "Alignment",
       name: "alignment",
       type: "string",
       options: {
@@ -38,7 +38,7 @@ export default defineType({
     }),
     defineField({
       name: 'anchorId',
-      title: 'ID del Ancla',
+      title: 'Anchor ID',
       type: 'string',
     }),
   ],
@@ -50,8 +50,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
-        subtitle: 'Texto Enriquecido',
+        title: title ?? 'No title set. Add one inside this block',
+        subtitle: 'Portable Text',
         media: LetterText,
       }
     },

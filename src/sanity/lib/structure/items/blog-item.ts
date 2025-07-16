@@ -24,11 +24,11 @@ export const AllPosts = (
   S: StructureBuilder, 
 ) => (
   S.listItem()
-    .title('Posts')
+    .title('Artículos')
     .icon(Folder)
     .child(
       S.documentList()
-      .title('All Posts')
+      .title('Todos los Artículos')
       .filter('_type == "post"')
     ) 
 )
@@ -42,7 +42,7 @@ export const PostCategories = (
     context, 
     icon: Tag, 
     type: 'postCategory', 
-    title: 'Categories', 
+    title: 'Categorías', 
     id: 'orderable-post-categories'
   })
 )
@@ -51,11 +51,11 @@ export const Authors = (
   S: StructureBuilder, 
 ) => (
   S.listItem()
-    .title('Authors')
+    .title('Autores')
     .icon(Users)
     .child(
       S.documentList()
-      .title('Authors')
+      .title('Autores')
       .filter('_type == "author"')
     ) 
 )

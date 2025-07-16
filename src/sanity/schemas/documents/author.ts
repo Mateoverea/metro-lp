@@ -5,7 +5,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'author',
-  title: 'Autores',
+  title: 'Authors',
   type: 'document',
   icon: Users,
   fieldsets: [ ...fieldsets ],
@@ -13,26 +13,26 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Nombre',
+      title: 'Name',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'username',
-      title: 'Nombre de Usuario',
+      title: 'Username',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'bio',
-      title: 'Biografía Breve',
+      title: 'Short Bio',
       type: 'text',
       rows: 4,
       validation: rule => rule.required()
     }),
     defineField({
       name: 'avatar',
-      title: 'Foto de Perfil',
+      title: 'Avatar',
       type: 'image',
     }),
   ]

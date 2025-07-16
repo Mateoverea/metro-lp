@@ -4,11 +4,11 @@ import { SpacingInput, spacingOptions } from "@/sanity/components/spacing-input"
 
 export default defineType({
   name: 'spacerObject',
-  title: 'Espaciador',
+  title: 'Spacer',
   type: 'object',
   fields: [
     defineField({
-      title: "Espaciado",
+      title: "Spacing",
       name: "spacing",
       type: "string",
       options: {
@@ -26,9 +26,9 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: (title ?? 'Sin título. Agrega uno dentro de este bloque').charAt(0).toUpperCase() + 
-              (title ?? 'Sin título. Agrega uno dentro de este bloque').slice(1),
-        subtitle: 'Espaciador',
+        title: (title ?? 'No title set. Add one inside this block').charAt(0).toUpperCase() + 
+              (title ?? 'No title set. Add one inside this block').slice(1),
+        subtitle: 'Spacer',
         media: BetweenHorizonalEnd,
       }
     },

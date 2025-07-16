@@ -4,7 +4,7 @@ import { fieldGroups } from "../misc/field-groups";
 
 export default defineType({
   name: 'marketingSettings',
-  title: 'Configuración de Marketing',
+  title: 'Marketing Settings',
   type: 'document',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
@@ -12,12 +12,12 @@ export default defineType({
     defineField({
       name: "googleAnalyticsId",
       type: "string",
-      title: "ID de Google Analytics",
+      title: "Google Analytics ID",
     }),
     defineField({
       name: "googleTagManagerId",
       type: "string",
-      title: "ID de Google Tag Manager",
+      title: "Google Tag Manager ID",
     }),
   ]
 })

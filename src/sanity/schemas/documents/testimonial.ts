@@ -6,7 +6,7 @@ import { orderRankField, orderRankOrdering } from "@sanity/orderable-document-li
 
 export default defineType({
   name: 'testimonial',
-  title: 'Testimonios',
+  title: 'Testimonials',
   type: 'document',
   icon: Star,
   fieldsets: [ ...fieldsets ],
@@ -15,37 +15,37 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Nombre',
+      title: 'Name',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'jobTitle',
-      title: 'Cargo/Puesto',
+      title: 'Job Title',
       type: 'string',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'company',
-      title: 'Empresa/Institución',
+      title: 'Company Name',
       type: 'string',
     }),
     defineField({
       name: 'quote',
-      title: 'Testimonio',
+      title: 'Quote',
       type: 'text',
       rows: 6,
       validation: rule => rule.required()
     }),
     defineField({
       name: 'avatar',
-      title: 'Foto de Perfil',
+      title: 'Avatar',
       type: 'image',
       validation: rule => rule.required()
     }),
     defineField({
       name: 'logo',
-      title: 'Logo de la Empresa',
+      title: 'Logo',
       type: 'image',
       validation: rule => rule.required()
     }),

@@ -5,19 +5,19 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'formBlock',
-  title: 'Formulario',
+  title: 'Form',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'heading',
-      title: 'Título',
+      title: 'Heading',
       type: 'string',
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [
         { 
@@ -29,14 +29,14 @@ export default defineType({
     }),
     defineField({
       name: 'form',
-      title: 'Formulario',
+      title: 'Form',
       type: 'reference',
       to: [{ type: 'form' }],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'anchorId',
-      title: 'ID del Ancla',
+      title: 'Anchor ID',
       type: 'string',
     }),
   ],
@@ -48,8 +48,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
-        subtitle: 'Formulario',
+        title: title ?? 'No title set. Add one inside this block',
+        subtitle: 'Form',
         media: Send,
       }
     },

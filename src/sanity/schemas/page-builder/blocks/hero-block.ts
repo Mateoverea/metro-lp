@@ -5,19 +5,19 @@ import { fieldGroups } from "../../misc/field-groups";
 
 export default defineType({
   name: 'heroBlock',
-  title: 'Héroe',
+  title: 'Hero',
   type: 'object',
   fieldsets: [ ...fieldsets ],
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
       name: 'heading',
-      title: 'Título',
+      title: 'Heading',
       type: 'string',
     }),
     defineField({
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [
         { 
@@ -28,25 +28,25 @@ export default defineType({
       ],
     }),
     defineField({
-      title: "Multimedia",
+      title: "Media",
       name: "mediaType",
       type: "string",
       options: {
         list: [
-          { title: "Imagen", value: "image" },
-          { title: "Ninguno", value: "none" },
+          { title: "Image", value: "image" },
+          { title: "None", value: "none" },
         ],
       },
       initialValue: 'image',
     }),
     defineField({
-      title: "Borde Redondeado - Inferior I/D",
+      title: "Corner Radius - Bottom L/R",
       name: "bottomCornerRadius",
       type: "string",
       options: {
         list: [
-          { title: "Recto", value: "straight" },
-          { title: "Redondeado", value: "rounded" },
+          { title: "Straight", value: "straight" },
+          { title: "Rounded", value: "rounded" },
         ],
       },
       initialValue: 'straight',
@@ -54,39 +54,39 @@ export default defineType({
     
     defineField({
       name: 'buttons',
-      title: 'Botones',
+      title: 'Buttons',
       type: 'array',
       of: [{ type: 'buttonObject' }],
     }),
    
     
     defineField({
-      title: "Tipo de Superposición",
+      title: "Overlay Type",
       name: "overlayType",
       type: "string",
       options: {
         list: [
-          { title: "Ninguno", value: "none" },
-          { title: "Oscuro", value: "dark" },
+          { title: "None", value: "none" },
+          { title: "Dark", value: "dark" },
         ],
       },
       initialValue: 'none',
     }),
     defineField({
       name: 'backgroundImage',
-      title: 'Imagen de Fondo',
+      title: 'Background Image',
       type: 'image',
       fields: [
         defineField({
           name: 'altText',
-          title: 'Texto Alternativo',
+          title: 'Alternative Text',
           type: 'string'
         }),
       ],
     }),
     defineField({
       name: 'anchorId',
-      title: 'ID del Ancla',
+      title: 'Anchor ID',
       type: 'string',
     }),
   ],
@@ -98,8 +98,8 @@ export default defineType({
     prepare(selection) {
       const { title } = selection
       return {
-        title: title ?? 'Sin título. Agrega uno dentro de este bloque',
-        subtitle: 'Héroe',
+        title: title ?? 'No title set. Add one inside this block',
+        subtitle: 'Hero',
         media: GalleryVertical,
       }
     },
