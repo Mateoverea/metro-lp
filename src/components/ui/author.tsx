@@ -18,13 +18,22 @@ export default function Author({ author, classNames }: AuthorProps) {
   return (
     <HoverCard>
       <HoverCardTrigger>
-        <Image
-          src={author?.avatar?.asset?.url ?? ''}
-          width={26}
-          height={26}
-          alt={author.name ?? ''}
-          className='rounded-full'
-        />
+        {/* Only render Image if we have a valid URL */}
+        {author?.avatar?.asset?.url ? (
+          <Image
+            src={author.avatar.asset.url}
+            width={26}
+            height={26}
+            alt={author.name ?? ''}
+            className='rounded-full'
+          />
+        ) : (
+          <div className="w-[26px] h-[26px] rounded-full bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-400 text-xs font-medium">
+              {author?.name?.charAt(0)?.toUpperCase() ?? '?'}
+            </span>
+          </div>
+        )}
       </HoverCardTrigger>
       <HoverCardContent className={classNames}>
         <div className='text-sm font-semibold antialiased'>

@@ -16,6 +16,7 @@ const CallToActionBlock = dynamic(() => import("./blocks/call-to-action-block"))
 const FeaturesMinimalBlock = dynamic(() => import("./blocks/features-minimal-block"));
 const FormBlock = dynamic(() => import("./blocks/form-block"));
 const MediaBlock = dynamic(() => import("./blocks/media-block"));
+const LatestBlogPostsBlock = dynamic(() => import("./blocks/latest-blog-posts-block"));
 
 type PageBlock = NonNullable<
   NonNullable<PageBySlugQueryResult>["pageBuilder"]
@@ -39,6 +40,7 @@ const PB_BLOCKS = {
   featuresMinimalBlock: FeaturesMinimalBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  latestBlogPostsBlock: LatestBlogPostsBlock,
 } as const;
 
 export function PageBuilder({ pageBuilder, id, type }: PageBuilderProps) {

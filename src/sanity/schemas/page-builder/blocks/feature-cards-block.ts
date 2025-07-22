@@ -23,6 +23,19 @@ export default defineType({
       of: [{ type: 'buttonObject' }],
     }),
     defineField({
+      name: 'columnsPerRow',
+      title: 'Columns per row',
+      type: 'string',
+      options: {
+        list: [
+          { title: '2 columns', value: '2' },
+          { title: '3 columns', value: '3' }
+        ]
+      },
+      initialValue: '2',
+      description: 'Choose how many columns to display per row on desktop'
+    }),
+    defineField({
       name: 'features',
       title: 'Features',
       type: 'array',

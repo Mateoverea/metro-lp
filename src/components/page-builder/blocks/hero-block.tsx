@@ -79,7 +79,7 @@ export default function HeroBlock(props: HeroBlockProps) {
             <ElegantText variant="slide-in" delay={0.4}>
               <PortableTextEditor 
                 data={content ?? []}
-                classNames={cn('text-lg md:text-xl lg:text-2xl text-balance leading-relaxed max-w-4xl', {
+                classNames={cn('text-lg md:text-xl lg:text-xl text-balance leading-relaxed max-w-4xl', {
                   'text-university-academic-700': !backgroundImage?.asset?.url,
                   'text-gray-100': backgroundImage?.asset?.url
                 })}

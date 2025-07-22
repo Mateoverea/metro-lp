@@ -26,33 +26,40 @@ export default function LogoBlock(props: LogoBlockProps) {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center justify-items-center">
           {logos?.map((item) => (
             <div key={item._key} className="group">
-              {item.link ? (
-                <a 
-                  href={item.link}
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="block transform hover:scale-105 transition-transform duration-200"
-                >
+              {/* Only render if we have a valid URL */}
+              {item.image?.asset?.url ? (
+                item.link ? (
+                  <a 
+                    href={item.link}
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="block transform hover:scale-105 transition-transform duration-200"
+                  >
+                    <Image
+                      width={200}
+                      height={100}
+                      src={item.image.asset.url}
+                      alt={`${item.title} Logo`}
+                      className={cn('w-20 md:w-28 object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200', {
+                        'w-32 md:w-36': stegaClean(item?.size) === 'large'
+                      })}
+                    />
+                  </a>
+                ) : (
                   <Image
                     width={200}
                     height={100}
-                    src={item.image?.asset?.url ?? ''}
+                    src={item.image.asset.url}
                     alt={`${item.title} Logo`}
-                    className={cn('w-20 md:w-28 object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-200', {
+                    className={cn('w-20 md:w-28 object-contain opacity-70 hover:opacity-100 transition-opacity duration-200 transform hover:scale-105', {
                       'w-32 md:w-36': stegaClean(item?.size) === 'large'
                     })}
                   />
-                </a>
-              ): (
-                <Image
-                  width={200}
-                  height={100}
-                  src={item.image?.asset?.url ?? ''}
-                  alt={`${item.title} Logo`}
-                  className={cn('w-20 md:w-28 object-contain opacity-70 hover:opacity-100 transition-opacity duration-200 transform hover:scale-105', {
-                    'w-32 md:w-36': stegaClean(item?.size) === 'large'
-                  })}
-                />  
+                )
+              ) : (
+                <div className="w-20 md:w-28 h-12 bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">
+                  {item.title || 'Logo'}
+                </div>
               )}
             </div>
           ))}

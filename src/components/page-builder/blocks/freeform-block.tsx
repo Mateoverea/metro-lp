@@ -199,7 +199,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                           {(item?._type === 'richTextObject' && item?.richTextContent) && (
                             <PortableTextEditor 
                               data={item?.richTextContent} 
-                              classNames='text-balance text-gray-600 leading-relaxed'
+                              classNames='text-balance text-sm md:text-base text-gray-600 leading-relaxed'
                             />
                           )}
                           
@@ -207,7 +207,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                           {(item?._type === 'singleImageObject' && item?.image?.asset?.url) && (
                             <div className='p-3 border border-dashed rounded-2xl bg-gray-50 overflow-hidden'>
                               <Image
-                                src={item?.image?.asset?.url ?? ''}
+                                src={item.image.asset.url}
                                 width={400}
                                 height={300}
                                 alt={item?.image?.asset?.altText ?? ''}

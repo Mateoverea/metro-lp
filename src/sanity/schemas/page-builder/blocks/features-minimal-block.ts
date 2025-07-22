@@ -58,6 +58,21 @@ export default defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
+      name: 'contentLayout',
+      title: 'Content Layout',
+      type: 'string',
+      description: 'Choose whether content appears on the left or right side (desktop only)',
+      options: {
+        list: [
+          { title: 'Content Left, Image Right', value: 'left' },
+          { title: 'Content Right, Image Left', value: 'right' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'left',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'enableBorderTop',
       title: 'Enable Border Top',
       type: 'boolean',

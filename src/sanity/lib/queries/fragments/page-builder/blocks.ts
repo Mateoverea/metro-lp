@@ -58,6 +58,7 @@ export const featureCardsBlockQuery = `
   _type == "featureCardsBlock" => {
     ${baseQuery},
     heading,
+    columnsPerRow,
     buttons[]{
       ${buttonQuery}
     },
@@ -97,6 +98,7 @@ export const featuresMinimalBlockQuery = `
       ${mediaQuery}
     },
     features,
+    contentLayout,
     enableBorderTop,
     cornerRadiusTop,
     enableBorderBottom,
@@ -280,5 +282,40 @@ export const mediaBlockQuery = `
       size
     },
     anchorId
+  }
+`
+
+export const latestBlogPostsBlockQuery = `
+  _type == "latestBlogPostsBlock" => {
+    ${baseQuery},
+    title,
+    showViewAllButton,
+    "posts": *[_type == 'post'] | order(_createdAt desc)[0...3] {
+      _id,
+      _type,
+      _createdAt,
+      title,
+      'slug': slug.current,
+      excerpt,
+      category->{
+        _id,
+        title,
+        'slug': slug.current,
+      },
+      author->{
+        _id,
+        name,
+        username,
+        bio,
+        avatar { 
+          asset->{ url }, 
+        },
+      },
+      image { 
+        asset->{ url }, 
+        altText 
+      },
+    },
+    ${paddingQuery}
   }
 `

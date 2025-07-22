@@ -36,7 +36,7 @@ export default function SlideOutMenu({ children, settings, navigationSettings }:
           <SiteLogo settings={settings} theme='dark' />
         </SheetHeader>
         <SheetTitle className='mt-16 px-0 py-6 antialiased font-normal text-gray-400'>
-          Explore
+          Explorar
         </SheetTitle>
         <ul className='px-0 flex flex-col gap-4 text-black'>
           {menuItems?.map((item) => {
@@ -99,7 +99,7 @@ export default function SlideOutMenu({ children, settings, navigationSettings }:
         {showCompanyDetailsSlideOutMenu && (
           <>
             <SheetTitle className='border-t border-dashed mt-8 px-0 pt-8 antialiased font-normal text-gray-400'>
-              Say Hello
+              ¡Preguntanos!
             </SheetTitle>
             <div className="mt-2 space-y-4">
               <a 
@@ -118,13 +118,20 @@ export default function SlideOutMenu({ children, settings, navigationSettings }:
                   target="_blank" rel="noopener noreferrer"
                   className="p-3 border rounded-full hover:bg-black group transition-all duration-300"
                 >
-                  <Image
-                    src={item.icon?.asset?.url ?? ''}
-                    width={16}
-                    height={16}
-                    alt={`Follow us on ${item.title ?? ''}`}
-                    className="group-hover:invert"
-                  />
+                  {/* Only render Image if we have a valid URL */}
+                  {item.icon?.asset?.url ? (
+                    <Image
+                      src={item.icon.asset.url}
+                      width={16}
+                      height={16}
+                      alt={`Follow us on ${item.title ?? ''}`}
+                      className="group-hover:invert"
+                    />
+                  ) : (
+                    <div className="w-4 h-4 bg-gray-300 rounded flex items-center justify-center">
+                      <span className="text-xs text-gray-500">?</span>
+                    </div>
+                  )}
                 </a>
               ))}
             </div>

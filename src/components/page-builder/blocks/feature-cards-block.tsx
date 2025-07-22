@@ -10,8 +10,15 @@ import PortableTextEditor from '@/components/portable-text/portable-text-editor'
 
 export type FeatureCardsBlockProps = PageBuilderType<"featureCardsBlock">;
 
+// Helper function to safely extract columnsPerRow
+function getColumnsPerRow(props: Record<string, unknown>): string {
+  return (props.columnsPerRow as string) || '2';
+}
+
 export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
 
+  // Extract grid configuration with fallback
+  const columnsPerRow = getColumnsPerRow(props as Record<string, unknown>);
   const { heading, buttons, features, showCallToAction, anchorId } = props;
 
   return (
@@ -19,27 +26,34 @@ export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
       {...(anchorId ? { id: anchorId } : {})}
       className='px-4 xl:px-10'
     >
-      <Container className='py-16 md:py-28 px-4 space-y-8 md:space-y-6 border-x border-dashed'>
-        <div className='relative max-w-[60rem] mx-auto py-2 md:py-4 flex flex-col md:flex-row gap-30 md:gap-6 items-center justify-between border-y border-dashed pattern-bg--2'>
-          <Heading tag="h2" size="xl" className='relative col-span-7 py-1.5 text-balance leading-normal'>
-            <span className='relative z-10'>
-              {heading}
-            </span>
+      <Container className='py-10 md:py-16 px-4 space-y-8 md:space-y-6 border-x border-dashed'>
+        <div className='relative max-w-[60rem] mx-auto py-2 md:py-4 flex flex-col md:flex-row gap-30 md:gap-6 items-center justify-between border-y border-dashed overflow-hidden'>
+          {/* Background pattern layer */}
+          <div className='absolute inset-0 pattern-bg--2 pointer-events-none'></div>
+          
+          <Heading tag="h2" size="xl" className='relative col-span-7 py-1.5 text-balance leading-normal z-10'>
+            {heading}
           </Heading>
           {buttons && buttons.length > 0 && (
-            <ButtonRenderer classNames='z-20 hidden md:flex' buttons={buttons} />  
+            <ButtonRenderer classNames='relative z-20 hidden md:flex' buttons={buttons} />  
           )}
           <EdgeBlur />
         </div>
-        <div className='max-w-[60rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className={cn(
+          'max-w-[60rem] mx-auto grid grid-cols-1 gap-6',
+          columnsPerRow === '3' ? 'md:grid-cols-3' : 'md:grid-cols-2'
+        )}>
           {features?.map((feature) => (
-            <div key={feature._key} className='col-span-2 md:col-span-1'>
+            <div key={feature._key} className={cn(
+              columnsPerRow === '3' ? 'col-span-3 md:col-span-1' : 'col-span-2 md:col-span-1'
+            )}>
               <FeatureCard feature={feature} />
             </div>
           ))}
           {showCallToAction && (
-            <CallToAction 
-              {...props}
+            <CallToActionComponent
+              props={props}
+              columnsPerRow={columnsPerRow}
             />
           )}
         </div>
@@ -54,20 +68,27 @@ function FeatureCard({ feature }: {
   return (
     <div className='border border-dashed rounded-3xl'>
       <div className='p-3'>
-        <Image
-          src={feature.image?.asset?.url ?? ''}
-          width={600}
-          height={400}
-          alt={feature.title ?? ''}
-          className='rounded-2xl h-[280px] object-cover overflow-hidden'
-        />
+        {/* Only render Image if we have a valid URL */}
+        {feature.image?.asset?.url ? (
+          <Image
+            src={feature.image.asset.url}
+            width={600}
+            height={400}
+            alt={feature.title ?? ''}
+            className='rounded-2xl h-[280px] object-cover overflow-hidden'
+          />
+        ) : (
+          <div className='rounded-2xl h-[280px] bg-gray-200 flex items-center justify-center'>
+            <span className='text-gray-400 text-sm'>No image available</span>
+          </div>
+        )}
       </div>
       <div className='mt-5 px-6 md:px-8 pb-2'>
         <div className='space-y-6'>
-          <Heading tag="h3" size="sm" className='relative py-2 font-semibold border-y border-y-gray-200/40 pattern-bg'>
+          <Heading tag="h3" size="sm" className='relative py-2 font-semibold border-y border-y-gray-200/40 bg-gradient-to-r from-transparent via-gray-50/30 to-transparent'>
             {feature.title}
           </Heading>
-          <p className='text-balance text-sm text-gray-500'>
+          <p className='text-balance text-sm md:text-base text-gray-600'>
             {feature.description}
           </p>
         </div>
@@ -81,7 +102,7 @@ function FeatureCard({ feature }: {
             })}
           >
             <CircleCheck className='h-4 w-4 text-green-600' />
-            <span className='text-balance text-sm'>
+            <span className='text-balance text-sm md:text-base text-gray-600'>
               {item}
             </span>
           </div>
@@ -104,16 +125,21 @@ function FeatureCard({ feature }: {
   )
 }
 
-function CallToAction(props: FeatureCardsBlockProps) {
-
-  const { 
-    callToActionHeading,
-    callToActionContent,
-    callToActionButtons,
-  } = props;
+function CallToActionComponent({ props, columnsPerRow }: { 
+  props: FeatureCardsBlockProps; 
+  columnsPerRow: string 
+}) {
+  // Extract CTA properties safely with proper type casting
+  const propsRecord = props as Record<string, unknown>;
+  const callToActionHeading = propsRecord.callToActionHeading as string;
+  const callToActionContent = propsRecord.callToActionContent as Parameters<typeof PortableTextEditor>[0]['data'];
+  const callToActionButtons = propsRecord.callToActionButtons as NonNullable<FeatureCardsBlockProps['buttons']>;
 
   return (
-    <div className='col-span-2 w-full p-8 flex flex-col md:flex-row items-center gap-8 border rounded-3xl pattern-bg--2'>
+    <div className={cn(
+      'w-full p-8 flex flex-col md:flex-row items-center gap-8 border rounded-3xl pattern-bg--2',
+      columnsPerRow === '3' ? 'col-span-3' : 'col-span-2'
+    )}>
       <div className="space-y-5 md:space-y-3">
         <div className="font-medium text-xl text-balance">
           {callToActionHeading}
@@ -123,7 +149,7 @@ function CallToAction(props: FeatureCardsBlockProps) {
           classNames='text-balance text-sm md:text-base text-gray-500'
         />
       </div>
-      {callToActionButtons && callToActionButtons.length > 0 && (
+      {callToActionButtons && Array.isArray(callToActionButtons) && callToActionButtons.length > 0 && (
         <div className='items-center md:justify-center gap-2.5'>
           <ButtonRenderer buttons={callToActionButtons} />  
         </div>
@@ -134,7 +160,7 @@ function CallToAction(props: FeatureCardsBlockProps) {
 
 function EdgeBlur() {
   return (
-    <div className='absolute inset-0 flex items-center justify-between'>
+    <div className='absolute inset-0 flex items-center justify-between pointer-events-none'>
       <div className='relative bg-gradient-to-r from-white to-transparent h-full w-[100px]'></div>
       <div className='bg-gradient-to-l from-white to-transparent h-full w-[100px]'></div>
     </div>

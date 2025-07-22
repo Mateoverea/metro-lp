@@ -46,6 +46,7 @@ import portableTextBlock from "./page-builder/blocks/portable-text-block";
 import freeformBlock from "./page-builder/blocks/freeform-block";
 import formBlock from "./page-builder/blocks/form-block";
 import mediaBlock from "./page-builder/blocks/media-block";
+import { latestBlogPostsBlock } from "./page-builder/blocks/latest-blog-posts-block";
 
 const pageBuilderSchema = [
   pageBuilder,
@@ -59,7 +60,8 @@ const pageBuilderSchema = [
   logoBlock,
   mediaBlock,
   testimonialBlock,
-  formBlock
+  formBlock,
+  latestBlogPostsBlock
 ];
 
 import seoObject from './objects/seo';

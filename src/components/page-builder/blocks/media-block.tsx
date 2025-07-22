@@ -45,6 +45,8 @@ const BENTO_LAYOUTS = {
   7: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small'],
   8: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small', 'small'],
   9: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small', 'medium', 'small'],
+  10: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small', 'medium', 'small', 'small'],
+  11: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small', 'medium', 'small', 'small', 'small'],
   12: ['large', 'medium', 'small', 'small', 'medium', 'small', 'small', 'medium', 'small', 'small', 'small', 'small']
 } as const;
 
@@ -107,8 +109,22 @@ export default function MediaBlock(props: MediaBlockProps) {
 // Bento Grid Layout Component
 function BentoGridLayout({ images }: { images: MediaBlockItem[] }) {
   const imageCount = images.length;
-  const suggestedLayout = BENTO_LAYOUTS[imageCount as keyof typeof BENTO_LAYOUTS] || 
-                         BENTO_LAYOUTS[Math.min(12, Math.max(3, imageCount)) as keyof typeof BENTO_LAYOUTS];
+  
+  // Get the layout configuration with robust fallback logic
+  const getSuggestedLayout = (count: number): readonly string[] => {
+    // Try to get exact match first
+    if (BENTO_LAYOUTS[count as keyof typeof BENTO_LAYOUTS]) {
+      return BENTO_LAYOUTS[count as keyof typeof BENTO_LAYOUTS];
+    }
+    
+    // Fallback to closest available layout
+    if (count >= 12) return BENTO_LAYOUTS[12];
+    if (count >= 9) return BENTO_LAYOUTS[9];
+    if (count >= 6) return BENTO_LAYOUTS[6];
+    return BENTO_LAYOUTS[3]; // Minimum fallback
+  };
+  
+  const suggestedLayout = getSuggestedLayout(imageCount);
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 max-w-7xl mx-auto">
@@ -207,13 +223,20 @@ function MediaCard({
     )}>
       <div className="p-3 h-full">
         <div className="relative h-full rounded-lg overflow-hidden bg-gray-100">
-          <Image
-            src={item.image?.asset?.url ?? ''}
-            width={800}
-            height={800}
-            alt={item.image?.altText || item.caption || 'Gallery image'}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          {/* Only render Image if we have a valid URL */}
+          {item.image?.asset?.url ? (
+            <Image
+              src={item.image.asset.url}
+              width={800}
+              height={800}
+              alt={item.image?.altText || item.caption || 'Gallery image'}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <span className="text-sm">No image available</span>
+            </div>
+          )}
           
           {/* Overlay with caption */}
           {item.caption && (

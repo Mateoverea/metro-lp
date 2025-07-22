@@ -14,7 +14,9 @@ export default function PortableTextEditor({ data, classNames }: PortableTextEdi
 
   return (
     <div className={cn(
-      'prose prose-headings:font-semibold prose-headings:tracking-tight prose-p:text-sm md:prose-p:text-base',
+      'prose prose-headings:font-semibold prose-headings:tracking-tight',
+      // Only apply default text sizes if no custom classNames with text sizing are provided
+      !classNames?.includes('text-') && 'prose-p:text-sm md:prose-p:text-base',
       classNames
     )}>
       <PortableText 

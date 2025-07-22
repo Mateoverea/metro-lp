@@ -88,13 +88,20 @@ function Thumbnail({ image }: {
   return (
     <>
       <div className='mt-10 p-4 rounded-3xl border border-dashed backdrop-blur-md backdrop-opacity-50'>
-        <Image
-          src={image?.asset?.url ?? ''}
-          width={800}
-          height={800}
-          alt={image?.altText ?? ''}
-          className='aspect-[3/2] w-full rounded-2xl'
-        />
+        {/* Only render Image if we have a valid URL */}
+        {image?.asset?.url ? (
+          <Image
+            src={image.asset.url}
+            width={800}
+            height={800}
+            alt={image?.altText ?? ''}
+            className='aspect-[3/2] w-full rounded-2xl'
+          />
+        ) : (
+          <div className='aspect-[3/2] w-full rounded-2xl bg-gray-200 flex items-center justify-center'>
+            <span className='text-gray-400 text-sm'>No image available</span>
+          </div>
+        )}
       </div>
       <div className='flex items-center justify-center gap-1 mt-4 text-center text-gray-600'>
         <ImageIcon size={15} />

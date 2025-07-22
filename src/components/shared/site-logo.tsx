@@ -19,7 +19,7 @@ export default function SiteLogo({ settings, location, theme }: {
   return (
     <button 
       aria-label="Go to home page"
-      onClick={() => pathname === '/' ? scrollToElement('home') : router.push(`/#home`)}
+      onClick={() => pathname === '/' ? scrollToElement('inicio') : router.push(`/#inicio`)}
       className={cn('hover:scale-[0.95] transition-transform duration-300 ease-in-out', {
         'text-white': theme === 'light'
       })}
@@ -33,14 +33,21 @@ export default function SiteLogo({ settings, location, theme }: {
           {siteTitle}
         </span>
       ): (
-        <Image
-          priority
-          width={140}
-          height={140}
-          src={siteLogo?.asset?.url ?? ''}
-          alt={`${siteTitle} Logo`}
-          className='w-[140px] h-auto object-contain'
-        />
+        /* Only render Image if we have a valid URL */
+        siteLogo?.asset?.url ? (
+          <Image
+            priority
+            width={140}
+            height={140}
+            src={siteLogo.asset.url}
+            alt={`${siteTitle} Logo`}
+            className='w-[140px] h-auto object-contain'
+          />
+        ) : (
+          <span className='font-semibold tracking-tighter text-xl'>
+            {siteTitle}
+          </span>
+        )
       )}
     </button>
   )

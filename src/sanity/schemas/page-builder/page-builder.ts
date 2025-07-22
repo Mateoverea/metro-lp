@@ -13,7 +13,7 @@ export const pageBuilder = defineType({
     defineArrayMember({ name: 'callToActionBlock', type: 'callToActionBlock' }),
     defineArrayMember({ name: 'logoBlock', type: 'logoBlock' }),
     defineArrayMember({ name: 'testimonialBlock', type: 'testimonialBlock' }),
-
+    defineArrayMember({ name: 'latestBlogPostsBlock', type: 'latestBlogPostsBlock' }),
     defineArrayMember({ name: 'formBlock', type: 'formBlock' }),
     defineArrayMember({ name: 'mediaBlock', type: 'mediaBlock' }),
   ],
@@ -28,7 +28,7 @@ export const pageBuilder = defineType({
         {
           name: 'content',
           title: 'Content',
-          of: [ 'freeformBlock', 'mediaBlock', 'portableTextBlock' ]
+          of: [ 'freeformBlock', 'mediaBlock', 'portableTextBlock', 'latestBlogPostsBlock' ]
         },
         {
           name: 'marketing',

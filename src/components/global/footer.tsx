@@ -13,8 +13,6 @@ interface FooterProps {
 }
 
 export default function Footer({ settings, navigationSettings }: FooterProps) {
-
-  const { copyright } = settings ?? {};
   
   const { 
     footerColumns: columns, 
@@ -23,25 +21,14 @@ export default function Footer({ settings, navigationSettings }: FooterProps) {
 
   return (
     <footer className='px-4 xl:px-10 border-t border-t-gray-200/60'>
-      <Container className='pt-14 md:pt-16 border-x border-dashed'>
-        <div className='w-full space-y-14 md:space-y-16'>
+      <Container className='border-x border-dashed'>
+        <div className='w-full space-y-6 md:space-y-8'>
           <div className='flex-none py-4 md:py-0 border-y border-dashed md:border-none'>
             <SiteLogo settings={settings} location="footer" />
           </div>
           <FooterColumns columns={columns ?? []} />
         </div>
-        <div className='relative mt-10 md:mt-20 mb-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-0 border-y border-dashed text-xs pattern-bg--2'>
-          <div className='z-20 relative'>
-          {copyright} © {new Date().getFullYear()}  - Design + Code by
-            <a 
-              href="https://jamesrea.co" 
-              rel="noopener noreferrer" target="_blank"
-              className='relative ml-1 font-semibold tracking-tight text-blue-600 group'
-            >
-              <span>James Rea.</span> 
-              <AnimatedUnderline className='bg-blue-600'/>
-            </a>
-          </div>
+        <div className='relative mt-4 md:mt-10 mb-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-0 border-y border-dashed text-xs pattern-bg--2'>
           <LegalMenuItems legalMenuItems={legalMenuItems ?? []} />
           <EdgeBlur />
         </div>
@@ -87,7 +74,7 @@ function FooterColumns({ columns }: {
                 {item.linkType === 'internal' ? (
                   <Link 
                     href={`/${item?.pageReference?.slug}`}
-                    className='relative group text-sm md:text-base'
+                    className='relative group text-sm md:text-base text-gray-600'
                   >
                     {item.title}
                     <AnimatedUnderline />
@@ -96,7 +83,7 @@ function FooterColumns({ columns }: {
                   <a 
                     href={item?.externalUrl ?? ''}
                     rel="noopener noreferrer" target="_blank"
-                    className='group flex items-center gap-2'
+                    className='group flex items-center gap-2 text-gray-600'
                   >
                     <span className='relative'>
                       {item.title}

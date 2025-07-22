@@ -118,7 +118,7 @@ export default function CallToActionBlock(props: CallToActionBlockProps) {
                 <ElegantText variant="slide-in" delay={0.2}>
                   <PortableTextEditor 
                     data={content}
-                    classNames="text-lg md:text-xl text-university-academic-700 text-balance leading-relaxed"
+                    classNames="text-lg md:text-xl text-gray-600 text-balance leading-relaxed"
                   />
                 </ElegantText>
               )}
@@ -131,7 +131,7 @@ export default function CallToActionBlock(props: CallToActionBlockProps) {
                   <div className='flex items-start gap-3'>
                     <MapPin className='w-5 h-5 text-university-navy mt-0.5 flex-shrink-0' />
                     <div className='flex-1'>
-                      <p className='text-university-academic-700 leading-relaxed whitespace-pre-line'>
+                      <p className='text-gray-600 leading-relaxed whitespace-pre-line'>
                         {locationText}
                       </p>
                     </div>

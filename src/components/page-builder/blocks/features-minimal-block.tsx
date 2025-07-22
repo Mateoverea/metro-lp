@@ -9,17 +9,15 @@ import Image from 'next/image';
 
 export type FeaturesMinimalBlockProps = PageBuilderType<"featuresMinimalBlock">;
 
-// Interfaz temporal hasta que se actualicen los tipos generados de Sanity
-interface TemporaryFeaturesMinimalBlockProps {
-  image?: {
-    asset?: {
-      url?: string;
-    };
-    alt?: string;
-  } | null;
-}
-
 export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
+  // Acceso seguro a propiedades usando unknown temporal para evitar errores de tipos
+  const propsUnknown = props as unknown as {
+    image?: {
+      asset?: { url?: string };
+      alt?: string;
+    };
+    contentLayout?: 'left' | 'right';
+  };
 
   const { 
     heading,
@@ -32,10 +30,10 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
     cornerRadiusBottom,
     anchorId,
   } = props;
-
-  // Type assertion temporal para acceder a la propiedad image
-  const featuresProps = props as unknown as TemporaryFeaturesMinimalBlockProps;
-  const image = featuresProps.image;
+  
+  // Acceso seguro a las propiedades que pueden no estar tipadas correctamente
+  const image = propsUnknown.image;
+  const contentLayout = propsUnknown.contentLayout || 'left';
 
   return (
     <section
@@ -48,8 +46,15 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
       })}
     >
       <Container className='py-16 md:py-16 border-x border-dashed space-y-10 md:space-y-14'>
+        {/* Layout flexible: en móviles siempre contenido arriba, en desktop respeta la selección de Sanity */}
         <div className='grid grid-cols-12 gap-y-12 md:gap-y-20 xl:gap-x-20'>
-          <div className='col-span-12 xl:col-span-5 max-w-[400px] md:max-w-full space-y-10 md:space-y-10'>
+          <div className={cn(
+            'col-span-12 xl:col-span-5 max-w-[400px] md:max-w-full space-y-10 md:space-y-10',
+            {
+              'xl:order-1': contentLayout === 'left',
+              'xl:order-2': contentLayout === 'right'
+            }
+          )}>
             <div className='lg:flex justify-between xl:flex-col'>
               <Heading tag="h2" size="xxl" className='max-w-[420px] relative pr-2.5 py-3 text-balance leading-normal border-y border-dashed border-t-gray-200 border-b-gray-200 bg-gray-50 pattern-bg--2'>
                 <span className='relative z-20'>
@@ -60,7 +65,7 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
               {content && (
                 <PortableTextEditor 
                   data={content}
-                  classNames='max-w-[400px] mt-8 text-balance text-gray-600'
+                  classNames='max-w-[400px] mt-8 text-balance text-gray-600 text-lg md:text-xl'
                 />
               )}
             </div>
@@ -68,7 +73,13 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
               <ButtonRenderer buttons={buttons} />  
             )}
           </div>
-          <div className='col-span-12 xl:col-span-7 space-y-8'>
+          <div className={cn(
+            'col-span-12 xl:col-span-7 space-y-8',
+            {
+              'xl:order-2': contentLayout === 'left',
+              'xl:order-1': contentLayout === 'right'
+            }
+          )}>
             <div className='w-full h-48 md:h-56 bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden relative'>
               {image?.asset?.url ? (
                 <Image
@@ -100,7 +111,7 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
                   <div className='flex-shrink-0 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center'>
                     <Check size={14} className='text-white' />
                   </div>
-                  <span className='text-sm md:text-base text-gray-700 hover:text-gray-900 transition-colors duration-200'>
+                  <span className='text-sm md:text-base text-gray-600 hover:text-gray-900 transition-colors duration-200'>
                     {feature}
                   </span>
                 </div>
