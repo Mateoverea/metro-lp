@@ -11,12 +11,14 @@ import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { navigationSettingsQuery } from "@/sanity/lib/queries/singletons/navigation";
 import { generalSettingsQuery, marketingSettingsQuery } from "@/sanity/lib/queries/singletons/settings";
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: {
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME}`,
     default: `${process.env.NEXT_PUBLIC_SITE_NAME}`,
   },
-  description: "Open-Source Next.js & Sanity Marketing Website Template.",
+  description: "Universidad Metropolitana de Occidente",
 };
 
 export default async function RootLayout({
