@@ -10,6 +10,7 @@ import { DisableDraftMode } from "@/components/shared/disable-draft-mode";
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { navigationSettingsQuery } from "@/sanity/lib/queries/singletons/navigation";
 import { generalSettingsQuery, marketingSettingsQuery } from "@/sanity/lib/queries/singletons/settings";
+import { client } from "@/sanity/lib/client";
 
 export const revalidate = 0;
 
@@ -29,10 +30,11 @@ export default async function RootLayout({
 
   const { isEnabled: isDraftMode } = await draftMode();
 
-  const [{ data: settings }, { data: marketingSettings }, { data: navigationSettings }] = await Promise.all([
+  // Use direct client fetch for navigationSettings to bypass cache
+  const [{ data: settings }, { data: marketingSettings }, navigationSettings] = await Promise.all([
     sanityFetch({ query: generalSettingsQuery }),
     sanityFetch({ query: marketingSettingsQuery }),
-    sanityFetch({ query: navigationSettingsQuery })
+    client.fetch(navigationSettingsQuery) // Simple direct fetch, no cache
   ]);
 
   if (!settings) return (
