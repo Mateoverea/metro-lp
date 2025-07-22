@@ -100,7 +100,10 @@ export function getAnchorHref({
   if (anchorLocation === 'currentPage') {
     return `#${anchorId}`;
   }
-  return `/${pageReference?.slug}#${anchorId}`;
+  
+  // Usar resolveHref para construir la URL correcta de la página
+  const pageHref = resolveHref(pageReference?._type, pageReference?.slug ?? '');
+  return `${pageHref}#${anchorId}`;
 }
 
 export function getPageHref(page: { slug: string; _type?: string }) {
@@ -112,8 +115,11 @@ export function resolveHref(documentType?: string, slug?: string): string | unde
     case 'home':
       return '/';
     case 'page':
+      // Detectar automáticamente si la página debería estar bajo /oferta-academica/
+      if (slug && isAcademicOfferPage(slug)) {
+        return `/oferta-academica/${slug}`;
+      }
       return slug ? `/${slug}` : undefined;
-
     case 'project':
       return slug ? `/oferta-academica/${slug}` : undefined;
     case 'post':
@@ -121,6 +127,48 @@ export function resolveHref(documentType?: string, slug?: string): string | unde
     default:
       return `/${slug}`;
   }
+}
+
+// Función auxiliar para detectar si una página debería estar bajo /oferta-academica/
+function isAcademicOfferPage(slug: string): boolean {
+  // Lista de slugs que deberían estar bajo /oferta-academica/
+  const academicOfferPages = [
+    'administracion',
+    'contabilidad',
+    'derecho',
+    'psicologia',
+    'ingenieria',
+    'medicina',
+    'enfermeria',
+    'arquitectura',
+    'educacion',
+    'comunicacion',
+    'marketing',
+    'turismo',
+    'gastronomia',
+  ];
+
+  // Verificar si el slug exacto está en la lista
+  if (academicOfferPages.includes(slug.toLowerCase())) {
+    return true;
+  }
+
+  // Verificar si el slug contiene palabras clave relacionadas con programas académicos
+  const academicKeywords = [
+    'carrera',
+    'programa',
+    'licenciatura',
+    'tecnico',
+    'diplomado',
+    'especialidad',
+    'maestria',
+    'doctorado',
+    'ingenieria',
+    'bachillerato',
+  ];
+
+  const lowerSlug = slug.toLowerCase();
+  return academicKeywords.some(keyword => lowerSlug.includes(keyword));
 }
 
 export type PageQueryResult = 

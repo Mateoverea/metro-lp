@@ -1,11 +1,27 @@
+import React from 'react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 import Container from './container';
-import Heading from '../shared/heading';
-import SiteLogo from '../shared/site-logo';
 import { ExternalLink } from 'lucide-react';
+import SiteLogo from '../shared/site-logo';
+import Heading from '../shared/heading';
+import { cn, resolveHref } from '@/lib/utils';
 import AnimatedUnderline from '../shared/animated-underline';
 import { GeneralSettingsQueryResult, NavigationSettingsQueryResult } from '../../../sanity.types';
+
+// Función auxiliar para construir URLs del footer
+function getFooterHref(pageReference: { _type?: string; slug?: string | null } | null | undefined): string {
+  // Si _type está disponible, usar resolveHref
+  if (pageReference?._type && pageReference?.slug) {
+    return resolveHref(pageReference._type, pageReference.slug) ?? '/';
+  }
+  
+  // Fallback: usar resolveHref con tipo undefined para activar la detección automática
+  if (pageReference?.slug) {
+    return resolveHref(undefined, pageReference.slug) ?? '/';
+  }
+  
+  return '/';
+}
 
 interface FooterProps {
   settings: GeneralSettingsQueryResult;
@@ -73,7 +89,7 @@ function FooterColumns({ columns }: {
               <li key={item._key}>
                 {item.linkType === 'internal' ? (
                   <Link 
-                    href={`/${item?.pageReference?.slug}`}
+                    href={getFooterHref(item?.pageReference)}
                     className='relative group text-sm md:text-base text-gray-600'
                   >
                     {item.title}
@@ -117,7 +133,7 @@ function LegalMenuItems({ legalMenuItems }: {
       {legalMenuItems?.map((item, index) => (
         <li key={item._key} className='text-xs font-medium'>
           <Link 
-            href={`/${item?.pageReference?.slug}`}
+            href={getFooterHref(item?.pageReference)}
             className='relative group'
           >
             <span>{item.title}</span>

@@ -149,7 +149,7 @@ function PostCategories({ categories }: {
               <Tag size={12} />
             </span>
             <span className='font-medium text-sm'>
-              Explore Categories
+              Explorar Categorías
             </span>
           </div>
           <ChevronDown 

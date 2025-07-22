@@ -71,6 +71,7 @@ export const navigationSettingsQuery = defineQuery(`*[_type == 'navigationSettin
         linkType,
         pageReference->{
           _id,
+          _type,
           title,
           "slug": slug.current
         },
@@ -82,6 +83,7 @@ export const navigationSettingsQuery = defineQuery(`*[_type == 'navigationSettin
       title,
       pageReference->{
         _id,
+        _type,
         title,
         "slug": slug.current
       },

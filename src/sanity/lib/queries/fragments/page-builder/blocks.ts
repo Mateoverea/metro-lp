@@ -46,6 +46,7 @@ export const featureBlockQuery = `
       },
       pageReference->{
         _id,
+        _type,
         title,
         "slug": slug.current
       },
@@ -214,6 +215,7 @@ export const freeformBlockQuery = `
         buttonType,
         buttonPageReference->{
           _id,
+          _type,
           title,
           "slug": slug.current
         },

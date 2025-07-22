@@ -31,7 +31,7 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
               <Text size={12} />
             </span>
             <span className='font-medium text-sm'>
-              Table Of Contents
+              Tabla de Contenidos
             </span>
           </div>
           <ChevronDown 
