@@ -1,40 +1,33 @@
 # Robots.txt para Site Engine
 # Next.js + Sanity CMS Website
 
-# Permitir a todos los bots acceder al contenido público
+# Configuración principal para todos los bots
 User-agent: *
-Allow: /
 
 # Bloquear rutas administrativas y de API
 Disallow: /api/
-Disallow: /studio
 Disallow: /studio/
 
 # Bloquear archivos internos de Next.js
 Disallow: /_next/
 Disallow: /_vercel/
 
-# Bloquear archivos de fuentes (ya están en /fonts/ dentro de la app)
-Disallow: /fonts/
-
 # Bloquear preview/draft mode
-Disallow: /*?preview=*
-Disallow: /*&preview=*
+Disallow: /*preview=
 
-# Sitemap - se genera dinámicamente desde Sanity
-# IMPORTANTE: Reemplaza con tu dominio real en producción
-Sitemap: /sitemap.xml
-
-# Configuración específica para bots comunes
+# Configuración específica para Googlebot
 User-agent: Googlebot
-Allow: /
+Disallow: /api/
+Disallow: /studio/
 Crawl-delay: 1
 
+# Configuración específica para Bingbot  
 User-agent: Bingbot
-Allow: /
+Disallow: /api/
+Disallow: /studio/
 Crawl-delay: 1
 
-# Bloquear bots problemáticos (opcional)
+# Bloquear bots problemáticos
 User-agent: AhrefsBot
 Disallow: /
 
@@ -42,4 +35,7 @@ User-agent: MJ12bot
 Disallow: /
 
 User-agent: DotBot
-Disallow: / 
+Disallow: /
+
+# Sitemap (IMPORTANTE: Reemplaza con tu dominio real en producción)
+Sitemap: https://metro-lp.vercel.app/sitemap.xml 
