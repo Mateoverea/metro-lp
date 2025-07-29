@@ -3,4 +3,5 @@ export const pageReferenceTypes = [
   { type: 'blogPage' },
   { type: 'projectsPage' },
   { type: 'project' },
+  { type: 'projectCategory' },
 ] as const;

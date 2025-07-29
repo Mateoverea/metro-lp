@@ -43,8 +43,11 @@ const config: Config = {
       },
       keyframes: {
         'logo-marquee-move': {
-          to: {
-            transform: 'translateX(-50%)'
+          '0%': {
+            transform: 'translate3d(0, 0, 0)'
+          },
+          '100%': {
+            transform: 'translate3d(-100%, 0, 0)'
           }
         },
         'float': {
@@ -67,10 +70,11 @@ const config: Config = {
         }
       },
       animation: {
-        'logo-marquee': 'logo-marquee-move 60s linear infinite',
+        'logo-marquee': 'logo-marquee-move 30s linear infinite',
         'float': 'float 3s ease-in-out infinite',
         'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
         'text-shimmer': 'text-shimmer 3s ease-in-out infinite',
+        'pause': 'none',
       },
     },
   },

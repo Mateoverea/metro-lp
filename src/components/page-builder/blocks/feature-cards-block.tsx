@@ -31,7 +31,7 @@ export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
           {/* Background pattern layer */}
           <div className='absolute inset-0 pattern-bg--2 pointer-events-none'></div>
           
-          <Heading tag="h2" size="xl" className='relative col-span-7 py-1.5 text-balance leading-normal z-10'>
+          <Heading tag="h2" size="xxl" className='relative col-span-7 py-1.5 text-balance leading-normal z-10'>
             {heading}
           </Heading>
           {buttons && buttons.length > 0 && (

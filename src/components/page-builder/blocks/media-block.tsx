@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { stegaClean } from 'next-sanity';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Container from '@/components/global/container';
 import Heading from '@/components/shared/heading';
 import ElegantText from '@/components/shared/elegant-text';
@@ -12,6 +14,7 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from '@/components/ui/carousel';
+import { X } from 'lucide-react';
 
 // Using temporary types until Sanity type generation resolves import issues
 interface MediaBlockItem {
@@ -64,6 +67,9 @@ export default function MediaBlock(props: MediaBlockProps) {
     Boolean(item?.image?.asset?._ref || item?.image?.asset?.url)
   ) || [];
   
+  // State for image dialog
+  const [selectedImage, setSelectedImage] = useState<MediaBlockItem | null>(null);
+  
   if (!validImages.length) {
     return null;
   }
@@ -94,20 +100,26 @@ export default function MediaBlock(props: MediaBlockProps) {
         {/* Media Content */}
         <ElegantText variant="fade-up" delay={0.3}>
           {stegaClean(layoutStyle) === 'carousel' ? (
-            <CarouselLayout images={validImages} />
+            <CarouselLayout images={validImages} onImageClick={setSelectedImage} />
           ) : stegaClean(layoutStyle) === 'mixed' ? (
-            <MixedLayout images={validImages} />
+            <MixedLayout images={validImages} onImageClick={setSelectedImage} />
           ) : (
-            <BentoGridLayout images={validImages} />
+            <BentoGridLayout images={validImages} onImageClick={setSelectedImage} />
           )}
         </ElegantText>
       </Container>
+
+      {/* Image Dialog */}
+      <ImageDialog 
+        image={selectedImage} 
+        onClose={() => setSelectedImage(null)} 
+      />
     </section>
   )
 }
 
 // Bento Grid Layout Component
-function BentoGridLayout({ images }: { images: MediaBlockItem[] }) {
+function BentoGridLayout({ images, onImageClick }: { images: MediaBlockItem[]; onImageClick: (image: MediaBlockItem) => void }) {
   const imageCount = images.length;
   
   // Get the layout configuration with robust fallback logic
@@ -136,6 +148,7 @@ function BentoGridLayout({ images }: { images: MediaBlockItem[] }) {
           <MediaCard 
             key={item._key || index}
             item={item}
+            onImageClick={onImageClick}
             className={cn(
               'group cursor-pointer overflow-hidden',
               {
@@ -155,7 +168,7 @@ function BentoGridLayout({ images }: { images: MediaBlockItem[] }) {
 }
 
 // Carousel Layout Component
-function CarouselLayout({ images }: { images: MediaBlockItem[] }) {
+function CarouselLayout({ images, onImageClick }: { images: MediaBlockItem[]; onImageClick: (image: MediaBlockItem) => void }) {
   return (
     <div className="max-w-5xl mx-auto">
       <Carousel
@@ -170,6 +183,7 @@ function CarouselLayout({ images }: { images: MediaBlockItem[] }) {
             <CarouselItem key={item._key || index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
               <MediaCard 
                 item={item}
+                onImageClick={onImageClick}
                 className="group cursor-pointer overflow-hidden aspect-square"
               />
             </CarouselItem>
@@ -183,14 +197,14 @@ function CarouselLayout({ images }: { images: MediaBlockItem[] }) {
 }
 
 // Mixed Layout Component (Grid + Carousel)
-function MixedLayout({ images }: { images: MediaBlockItem[] }) {
+function MixedLayout({ images, onImageClick }: { images: MediaBlockItem[]; onImageClick: (image: MediaBlockItem) => void }) {
   const gridImages = images.slice(0, 6); // First 6 for grid
   const carouselImages = images.length > 6 ? images.slice(6) : []; // Rest for carousel
 
   return (
     <div className="space-y-12">
       {/* Bento Grid Section */}
-      <BentoGridLayout images={gridImages} />
+      <BentoGridLayout images={gridImages} onImageClick={onImageClick} />
       
       {/* Carousel Section */}
       {carouselImages.length > 0 && (
@@ -200,7 +214,7 @@ function MixedLayout({ images }: { images: MediaBlockItem[] }) {
             <Heading tag="h3" size="md" className="text-center mb-8 text-university-navy">
               More Images
             </Heading>
-            <CarouselLayout images={carouselImages} />
+            <CarouselLayout images={carouselImages} onImageClick={onImageClick} />
           </div>
         </div>
       )}
@@ -211,16 +225,21 @@ function MixedLayout({ images }: { images: MediaBlockItem[] }) {
 // Individual Media Card Component
 function MediaCard({ 
   item, 
-  className 
+  className,
+  onImageClick 
 }: { 
   item: MediaBlockItem;
   className?: string;
+  onImageClick: (image: MediaBlockItem) => void;
 }) {
   return (
-    <div className={cn(
-      'relative bg-white border border-university-academic-200/50 rounded-xl shadow-university hover:shadow-university-lg transition-all duration-300 hover:-translate-y-1',
-      className
-    )}>
+    <div 
+      className={cn(
+        'relative bg-white border border-university-academic-200/50 rounded-xl shadow-university hover:shadow-university-lg transition-all duration-300 hover:-translate-y-1',
+        className
+      )}
+      onClick={() => onImageClick(item)}
+    >
       <div className="p-3 h-full">
         <div className="relative h-full rounded-lg overflow-hidden bg-gray-100">
           {/* Only render Image if we have a valid URL */}
@@ -252,4 +271,85 @@ function MediaCard({
       </div>
     </div>
   );
+}
+
+// Image Dialog Component
+function ImageDialog({ 
+  image, 
+  onClose 
+}: { 
+  image: MediaBlockItem | null; 
+  onClose: () => void;
+}) {
+  // Close on escape key and handle body scroll
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    
+    if (image) {
+      // Calculate scrollbar width to prevent layout shift
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      
+      // Save current body styles
+      const originalOverflow = document.body.style.overflow;
+      const originalPaddingRight = document.body.style.paddingRight;
+      
+      // Prevent scroll and compensate for scrollbar
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      
+      document.addEventListener('keydown', handleEscape);
+      
+      return () => {
+        // Restore original styles
+        document.body.style.overflow = originalOverflow;
+        document.body.style.paddingRight = originalPaddingRight;
+        document.removeEventListener('keydown', handleEscape);
+      };
+    }
+  }, [image, onClose]);
+
+  if (!image?.image?.asset?.url) return null;
+
+  const modalContent = (
+    <div 
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-all duration-200 hover:scale-110"
+      >
+        <X className="h-6 w-6" />
+      </button>
+      
+      {/* Image container */}
+      <div 
+        className="relative max-w-[90vw] max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl animate-in fade-in-0 zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={image.image.asset.url}
+          width={1200}
+          height={800}
+          alt={image.image?.altText || image.caption || 'Gallery image'}
+          className="w-auto h-auto max-w-full max-h-[90vh] object-contain"
+          priority
+        />
+        
+        {/* Caption */}
+        {image.caption && (
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent text-white p-6">
+            <p className="text-sm font-medium text-center">
+              {image.caption}
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  return createPortal(modalContent, document.body);
 }

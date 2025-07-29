@@ -122,6 +122,8 @@ export function resolveHref(documentType?: string, slug?: string): string | unde
       return slug ? `/${slug}` : undefined;
     case 'project':
       return slug ? `/oferta-academica/${slug}` : undefined;
+    case 'projectCategory':
+      return slug ? `/oferta-academica/category/${slug}` : undefined;
     case 'post':
       return slug ? `/blog/${slug}` : undefined;
     default:

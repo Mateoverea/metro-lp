@@ -61,7 +61,7 @@ export default function LatestBlogPostsBlock({
       <Container>
         {/* Header de la sección */}
         <div className='mb-8 md:mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-dashed'>
-          <Heading tag="h2" size="xl" className="text-balance">
+          <Heading tag="h2" size="xxl" className="text-balance">
             {title}
           </Heading>
           
