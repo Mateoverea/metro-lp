@@ -45,16 +45,10 @@ export function truncateText(text: string, target: number) {
 };
 
 export function formatDate(date: string | Date) {
-  return new Date(date).toLocaleDateString('en-US', {
+  return new Date(date).toLocaleDateString('es-ES', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
-  }).replace(/(\d+)/, (match) => {
-    const num = parseInt(match);
-    const suffix = ['th', 'st', 'nd', 'rd'][
-      (num > 3 && num < 21) || num % 10 > 3 ? 0 : num % 10
-    ];
-    return match + suffix;
   });
 };
 

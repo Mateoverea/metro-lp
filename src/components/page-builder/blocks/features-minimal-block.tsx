@@ -35,6 +35,9 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
   const image = propsUnknown.image;
   const contentLayout = propsUnknown.contentLayout || 'left';
 
+  // Detectar si hay features para ajustar el tamaño de la imagen
+  const hasFeatures = features && features.length > 0;
+
   return (
     <section
       {...(anchorId ? { id: anchorId } : {})} 
@@ -45,7 +48,7 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
         'rounded-b-4xl': cornerRadiusBottom === 'rounded'
       })}
     >
-      <Container className='py-16 md:py-16 border-x border-dashed space-y-10 md:space-y-14'>
+      <Container className='py-12 md:py-12 border-x border-dashed space-y-10 md:space-y-14'>
         {/* Layout flexible: en móviles siempre contenido arriba, en desktop respeta la selección de Sanity */}
         <div className='grid grid-cols-12 gap-y-12 md:gap-y-20 xl:gap-x-20'>
           <div className={cn(
@@ -80,7 +83,16 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
               'xl:order-1': contentLayout === 'right'
             }
           )}>
-            <div className='w-full h-48 md:h-56 bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden relative'>
+            {/* Imagen con altura dinámica: más alta si no hay features, más compacta si hay features */}
+            <div className={cn(
+              'w-full bg-gradient-to-br from-blue-100 via-indigo-50 to-purple-100 rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden relative',
+              {
+                // Si hay features: altura compacta para dejar espacio a las features
+                'h-48 md:h-56': hasFeatures,
+                // Si no hay features: altura más amplia para empatar con el contenido del otro lado
+                'h-80 md:h-96 lg:h-[28rem]': !hasFeatures
+              }
+            )}>
               {image?.asset?.url ? (
                 <Image
                   src={image.asset.url}
@@ -105,18 +117,21 @@ export default function FeaturesMinimalBlock(props: FeaturesMinimalBlockProps) {
               )}
             </div>
 
-            <div className='grid md:grid-cols-2 gap-y-4 md:gap-x-10'>
-              {features?.map((feature: string) => (
-                <div key={feature} className='pb-4 flex items-center gap-3.5 border-b border-dashed border-b-slate-200/80 hover:border-b-blue-300/60 transition-colors duration-200'>
-                  <div className='flex-shrink-0 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center'>
-                    <Check size={14} className='text-white' />
+            {/* Solo mostrar features si existen */}
+            {hasFeatures && (
+              <div className='grid md:grid-cols-2 gap-y-4 md:gap-x-10'>
+                {features.map((feature: string) => (
+                  <div key={feature} className='pb-4 flex items-center gap-3.5 border-b border-dashed border-b-slate-200/80 hover:border-b-blue-300/60 transition-colors duration-200'>
+                    <div className='flex-shrink-0 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center'>
+                      <Check size={14} className='text-white' />
+                    </div>
+                    <span className='text-sm md:text-base text-gray-600 hover:text-gray-900 transition-colors duration-200'>
+                      {feature}
+                    </span>
                   </div>
-                  <span className='text-sm md:text-base text-gray-600 hover:text-gray-900 transition-colors duration-200'>
-                    {feature}
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </Container>
