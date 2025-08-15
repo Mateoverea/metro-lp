@@ -1,3 +1,4 @@
+import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { PageBuilderType } from '@/types';
@@ -20,6 +21,10 @@ export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
   // Extract grid configuration with fallback
   const columnsPerRow = getColumnsPerRow(props as Record<string, unknown>);
   const { heading, buttons, features, showCallToAction, anchorId } = props;
+  const hideImages = (props as Record<string, unknown>).hideImages as boolean | undefined;
+  const enableExpand = (props as Record<string, unknown>).enableExpand as boolean | undefined;
+  const expandLabel = ((props as Record<string, unknown>).expandLabel as string) ?? 'Ver más';
+  const collapseLabel = ((props as Record<string, unknown>).collapseLabel as string) ?? 'Ver menos';
 
   return (
     <section 
@@ -47,7 +52,13 @@ export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
             <div key={feature._key} className={cn(
               columnsPerRow === '3' ? 'col-span-3 md:col-span-1' : 'col-span-2 md:col-span-1'
             )}>
-              <FeatureCard feature={feature} />
+              <FeatureCard 
+                feature={feature} 
+                hideImages={!!hideImages}
+                enableExpand={!!enableExpand}
+                expandLabel={expandLabel}
+                collapseLabel={collapseLabel}
+              />
             </div>
           ))}
           {showCallToAction && (
@@ -62,25 +73,32 @@ export default function FeatureCardsBlock(props: FeatureCardsBlockProps) {
   )
 }
 
-function FeatureCard({ feature }: {
+function FeatureCard({ feature, hideImages, enableExpand, expandLabel, collapseLabel }: {
   feature:  NonNullable<FeatureCardsBlockProps['features']>[number];
+  hideImages: boolean;
+  enableExpand: boolean;
+  expandLabel: string;
+  collapseLabel: string;
 }) {
+  const [expanded, setExpanded] = React.useState(false);
   return (
     <div className='border border-dashed rounded-3xl'>
       <div className='p-3'>
-        {/* Only render Image if we have a valid URL */}
-        {feature.image?.asset?.url ? (
-          <Image
-            src={feature.image.asset.url}
-            width={600}
-            height={400}
-            alt={feature.title ?? ''}
-            className='rounded-2xl h-[280px] object-cover overflow-hidden'
-          />
-        ) : (
-          <div className='rounded-2xl h-[280px] bg-gray-200 flex items-center justify-center'>
-            <span className='text-gray-400 text-sm'>No image available</span>
-          </div>
+        {/* Only render Image if not hidden and we have a valid URL */}
+        {!hideImages && (
+          feature.image?.asset?.url ? (
+            <Image
+              src={feature.image.asset.url}
+              width={600}
+              height={400}
+              alt={feature.title ?? ''}
+              className='rounded-2xl h-[280px] object-cover overflow-hidden'
+            />
+          ) : (
+            <div className='rounded-2xl h-[280px] bg-gray-200 flex items-center justify-center'>
+              <span className='text-gray-400 text-sm'>No image available</span>
+            </div>
+          )
         )}
       </div>
       <div className='mt-5 px-6 md:px-8 pb-2'>
@@ -94,19 +112,32 @@ function FeatureCard({ feature }: {
         </div>
       </div>
       <div className='mt-4 space-y-3 border-t border-dashed'>
-        {feature?.items?.map((item, index) => (
-          <div 
-            key={item} 
-            className={cn('flex items-start md:items-center gap-2 px-6 md:px-8 py-4 border-b border-dashed', {
-              'border-none pb-6': index === (feature?.items?.length ?? 0) - 1
-            })}
-          >
-            <CircleCheck className='h-4 w-4 text-green-600' />
-            <span className='text-balance text-sm md:text-base text-gray-600'>
-              {item}
-            </span>
-          </div>
+        {(feature?.items ?? [])
+          .filter((_, index) => enableExpand ? expanded || index < 3 : true)
+          .map((item, index, arr) => (
+            <div 
+              key={`${item}-${index}`}
+              className={cn('flex items-start md:items-center gap-2 px-6 md:px-8 py-4 border-b border-dashed', {
+                'border-none pb-6': index === arr.length - 1 && (!enableExpand || expanded || (feature?.items?.length ?? 0) <= 3)
+              })}
+            >
+              <CircleCheck className='h-4 w-4 text-green-600' />
+              <span className='text-balance text-sm md:text-base text-gray-600'>
+                {item}
+              </span>
+            </div>
         ))}
+        {enableExpand && (feature?.items?.length ?? 0) > 3 && (
+          <div className='px-6 md:px-8 pb-6'>
+            <button 
+              type='button'
+              className='text-sm font-medium text-primary hover:underline'
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              {expanded ? collapseLabel : expandLabel}
+            </button>
+          </div>
+        )}
       </div>
       {feature?.button?.showButton && (
         <div className='px-4 py-4 border-t border-dashed'>

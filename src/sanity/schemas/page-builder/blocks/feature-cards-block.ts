@@ -12,6 +12,32 @@ export default defineType({
   groups: [ ...fieldGroups ],
   fields: [
     defineField({
+      name: 'hideImages',
+      title: 'Hide images',
+      type: 'boolean',
+      description: 'If enabled, images inside each card will not be displayed',
+    }),
+    defineField({
+      name: 'enableExpand',
+      title: 'Enable "Ver más" toggle',
+      type: 'boolean',
+      description: 'Adds an expand/collapse toggle to each card to show all items',
+    }),
+    defineField({
+      name: 'expandLabel',
+      title: 'Expand label',
+      type: 'string',
+      initialValue: 'Ver más',
+      description: 'Text for the expand action button',
+    }),
+    defineField({
+      name: 'collapseLabel',
+      title: 'Collapse label',
+      type: 'string',
+      initialValue: 'Ver menos',
+      description: 'Text for the collapse action button',
+    }),
+    defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',

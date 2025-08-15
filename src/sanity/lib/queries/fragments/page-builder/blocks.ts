@@ -59,6 +59,10 @@ export const featureCardsBlockQuery = `
   _type == "featureCardsBlock" => {
     ${baseQuery},
     heading,
+    hideImages,
+    enableExpand,
+    expandLabel,
+    collapseLabel,
     columnsPerRow,
     buttons[]{
       ${buttonQuery}
