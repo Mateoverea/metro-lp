@@ -71,6 +71,7 @@ const config: Config = {
       },
       animation: {
         'logo-marquee': 'logo-marquee-move 30s linear infinite',
+        'logo-marquee-fast': 'logo-marquee-move 16s linear infinite',
         'float': 'float 3s ease-in-out infinite',
         'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
         'text-shimmer': 'text-shimmer 3s ease-in-out infinite',

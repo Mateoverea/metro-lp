@@ -23,7 +23,7 @@ export default defineType({
       name: 'showCategoryFilter',
       title: 'Mostrar Filtro de Categorías',
       type: 'boolean',
-      description: 'Mostrar botones para filtrar entre Licenciaturas y Maestrías.',
+      description: 'Mostrar botones para filtrar entre Licenciaturas, Maestrías, Especialidades y Cursos.',
       initialValue: true,
     }),
     defineField({
@@ -44,11 +44,13 @@ export default defineType({
             name: 'category',
             title: 'Categoría',
             type: 'string',
-            description: 'Selecciona si es licenciatura o maestría.',
+            description: 'Selecciona si es Licenciatura, Maestría, Especialidad o Curso.',
             options: {
               list: [
                 { title: "Licenciatura", value: "licenciatura" },
                 { title: "Maestría", value: "maestria" },
+                { title: "Especialidad", value: "especialidad" },
+                { title: "Curso", value: "curso" },
               ],
               layout: 'radio',
             },
@@ -120,7 +122,12 @@ export default defineType({
             const { title, category } = selection;
             return {
               title: title || 'Sin título',
-              subtitle: category === 'maestria' ? 'Maestría' : 'Licenciatura',
+              subtitle: ({
+                licenciatura: 'Licenciatura',
+                maestria: 'Maestría',
+                especialidad: 'Especialidad',
+                curso: 'Curso',
+              } as Record<string, string>)[category] || 'Sin categoría',
             }
           },
         },

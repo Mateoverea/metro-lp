@@ -24,7 +24,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
   const showCategoryFilter = props.showCategoryFilter as boolean;
   
   // Estado para el filtro de categorías
-  const [activeCategory, setActiveCategory] = useState<'all' | 'licenciatura' | 'maestria'>('all');
+  const [activeCategory, setActiveCategory] = useState<'all' | 'licenciatura' | 'maestria' | 'especialidad' | 'curso'>('all');
 
   // Filtrar las carreras según la categoría seleccionada
   const filteredColumns = React.useMemo(() => {
@@ -51,6 +51,8 @@ export default function FreeformBlock(props: FreeformBlockProps) {
   const setAllCategory = React.useCallback(() => setActiveCategory('all'), []);
   const setLicenciaturaCategory = React.useCallback(() => setActiveCategory('licenciatura'), []);
   const setMaestriaCategory = React.useCallback(() => setActiveCategory('maestria'), []);
+  const setEspecialidadCategory = React.useCallback(() => setActiveCategory('especialidad'), []);
+  const setCursoCategory = React.useCallback(() => setActiveCategory('curso'), []);
 
   return (
     <section 
@@ -76,12 +78,12 @@ export default function FreeformBlock(props: FreeformBlockProps) {
 
       {/* Filtros de categoría */}
       {showCategoryFilter && columns && columns.length > 0 && (
-          <div className="flex justify-center mb-12">
-            <div className="inline-flex rounded-lg bg-gray-100 p-1">
+          <div className="flex justify-start md:justify-center mb-12">
+            <div className="flex flex-wrap items-center justify-center rounded-lg bg-gray-100 p-1 gap-1">
               <button
                 onClick={setAllCategory}
                 className={cn(
-                  'px-6 py-2 text-sm font-medium rounded-md transition-all duration-200',
+                  'px-3 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200',
                   activeCategory === 'all'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -92,7 +94,7 @@ export default function FreeformBlock(props: FreeformBlockProps) {
               <button
                 onClick={setLicenciaturaCategory}
                 className={cn(
-                  'px-6 py-2 text-sm font-medium rounded-md transition-all duration-200',
+                  'px-3 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200',
                   activeCategory === 'licenciatura'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
@@ -103,13 +105,35 @@ export default function FreeformBlock(props: FreeformBlockProps) {
               <button
                 onClick={setMaestriaCategory}
                 className={cn(
-                  'px-6 py-2 text-sm font-medium rounded-md transition-all duration-200',
+                  'px-3 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200',
                   activeCategory === 'maestria'
                     ? 'bg-white text-gray-900 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 )}
               >
                 Maestrías
+              </button>
+              <button
+                onClick={setEspecialidadCategory}
+                className={cn(
+                  'px-3 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200',
+                  activeCategory === 'especialidad'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                Especialidades
+              </button>
+              <button
+                onClick={setCursoCategory}
+                className={cn(
+                  'px-3 md:px-6 py-1.5 md:py-2 text-xs md:text-sm font-medium rounded-md transition-all duration-200',
+                  activeCategory === 'curso'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                Cursos
               </button>
             </div>
           </div>
@@ -163,7 +187,14 @@ export default function FreeformBlock(props: FreeformBlockProps) {
                             ? 'bg-university-silver text-university-navy'
                             : 'bg-white text-university-navy'
                         )}>
-                          {stegaClean(column?.category) === 'maestria' ? 'Mtro.' : 'Lic.'}
+                          {(
+                            {
+                              licenciatura: 'Lic.',
+                              maestria: 'Mtro.',
+                              especialidad: 'Esp.',
+                              curso: 'Curso',
+                            } as Record<string, string>
+                          )[String(stegaClean(column?.category) ?? '')] || '—'}
                         </span>
                       </div>
                     </div>

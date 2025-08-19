@@ -42,7 +42,7 @@ export default function LogoBlock(props: LogoBlockProps) {
         <div className="relative overflow-hidden">
           {/* Main marquee track with hardware acceleration */}
           <div 
-            className="flex animate-logo-marquee hover:[animation-play-state:paused]"
+            className="flex animate-logo-marquee-fast md:animate-logo-marquee hover:[animation-play-state:paused] motion-reduce:animate-none"
             style={{
               willChange: 'transform',
               backfaceVisibility: 'hidden',
