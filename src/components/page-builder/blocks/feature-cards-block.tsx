@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { PageBuilderType } from '@/types';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/shared/heading';
 import Container from '@/components/global/container';
@@ -83,10 +83,10 @@ function FeatureCard({ feature, hideImages, enableExpand, expandLabel, collapseL
   const [expanded, setExpanded] = React.useState(false);
   return (
     <div className='border border-dashed rounded-3xl'>
-      <div className='p-3'>
-        {/* Only render Image if not hidden and we have a valid URL */}
-        {!hideImages && (
-          feature.image?.asset?.url ? (
+      {/* When not expandable, keep image above title as before */}
+      {!enableExpand && !hideImages && (
+        <div className='p-3'>
+          {feature.image?.asset?.url ? (
             <Image
               src={feature.image.asset.url}
               width={600}
@@ -98,48 +98,80 @@ function FeatureCard({ feature, hideImages, enableExpand, expandLabel, collapseL
             <div className='rounded-2xl h-[280px] bg-gray-200 flex items-center justify-center'>
               <span className='text-gray-400 text-sm'>No image available</span>
             </div>
-          )
-        )}
-      </div>
+          )}
+        </div>
+      )}
       <div className='mt-5 px-6 md:px-8 pb-2'>
         <div className='space-y-6'>
           <Heading tag="h3" size="sm" className='relative py-2 font-semibold border-y border-y-gray-200/40 bg-gradient-to-r from-transparent via-gray-50/30 to-transparent'>
-            {feature.title}
+            {/* Use the heading as the expand/collapse trigger when enabled */}
+            <button
+              type='button'
+              className='w-full grid grid-cols-[1fr_auto_1fr] items-center cursor-pointer select-none appearance-none bg-transparent focus-visible:outline-none h-12'
+              aria-expanded={expanded}
+              aria-label={enableExpand ? (expanded ? collapseLabel : expandLabel) : undefined}
+              onClick={() => {
+                if (enableExpand) setExpanded((prev) => !prev)
+              }}
+            >
+              <span className='col-start-2 justify-self-center text-center flex items-center justify-center leading-none'>
+                {feature.title}
+              </span>
+              <span className='col-start-3 justify-self-end inline-flex items-center'>
+                {enableExpand && (
+                  <ChevronDown
+                    className={cn('h-4 w-4 shrink-0 transition-transform duration-200', expanded ? 'rotate-180' : 'rotate-0')}
+                    aria-hidden='true'
+                  />
+                )}
+              </span>
+            </button>
           </Heading>
-          <p className='text-balance text-sm md:text-base text-gray-600'>
-            {feature.description}
-          </p>
+          {/* When expandable and expanded, show image below the title so the title doesn't move */}
+          {enableExpand && expanded && !hideImages && (
+            <div className='p-3'>
+              {feature.image?.asset?.url ? (
+                <Image
+                  src={feature.image.asset.url}
+                  width={600}
+                  height={400}
+                  alt={feature.title ?? ''}
+                  className='rounded-2xl h-[280px] object-cover overflow-hidden'
+                />
+              ) : (
+                <div className='rounded-2xl h-[280px] bg-gray-200 flex items-center justify-center'>
+                  <span className='text-gray-400 text-sm'>No image available</span>
+                </div>
+              )}
+            </div>
+          )}
+          {(!enableExpand || expanded) && (
+            <p className='text-balance text-sm md:text-base text-gray-600'>
+              {feature.description}
+            </p>
+          )}
         </div>
       </div>
-      <div className='mt-4 space-y-3 border-t border-dashed'>
-        {(feature?.items ?? [])
-          .filter((_, index) => enableExpand ? expanded || index < 3 : true)
-          .map((item, index, arr) => (
-            <div 
-              key={`${item}-${index}`}
-              className={cn('flex items-start md:items-center gap-2 px-6 md:px-8 py-4 border-b border-dashed', {
-                'border-none pb-6': index === arr.length - 1 && (!enableExpand || expanded || (feature?.items?.length ?? 0) <= 3)
-              })}
-            >
-              <CircleCheck className='h-4 w-4 text-green-600' />
-              <span className='text-balance text-sm md:text-base text-gray-600'>
-                {item}
-              </span>
-            </div>
-        ))}
-        {enableExpand && (feature?.items?.length ?? 0) > 3 && (
-          <div className='px-6 md:px-8 pb-6'>
-            <button 
-              type='button'
-              className='text-sm font-medium text-primary hover:underline'
-              onClick={() => setExpanded((prev) => !prev)}
-            >
-              {expanded ? collapseLabel : expandLabel}
-            </button>
-          </div>
-        )}
-      </div>
-      {feature?.button?.showButton && (
+      {(!enableExpand || expanded) && (
+        <div className='mt-4 space-y-3 border-t border-dashed'>
+          {(feature?.items ?? [])
+            .filter(() => !enableExpand || expanded)
+            .map((item, index, arr) => (
+              <div 
+                key={`${item}-${index}`}
+                className={cn('flex items-start md:items-center gap-2 px-6 md:px-8 py-4 border-b border-dashed', {
+                  'border-none pb-6': index === arr.length - 1
+                })}
+              >
+                <CircleCheck className='h-4 w-4 text-green-600' />
+                <span className='text-balance text-sm md:text-base text-gray-600'>
+                  {item}
+                </span>
+              </div>
+          ))}
+        </div>
+      )}
+      {(!enableExpand || expanded) && feature?.button?.showButton && (
         <div className='px-4 py-4 border-t border-dashed'>
           <Button 
             variant={feature?.button.buttonVariant}
